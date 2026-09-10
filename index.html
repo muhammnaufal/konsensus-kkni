@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsensus KKNI - Pengisian Formulir</title>
+    <meta name="description"
+        content="Portal Pengisian Formulir Konsensus Kerangka Kualifikasi Nasional Indonesia (KKNI)">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Design System CSS -->
+    <link rel="stylesheet" href="css/app.css">
+    <style>
+        /* Clean layout styling specifically for simple index page */
+        body {
+            background: linear-gradient(135deg, #0F172A 0%, #0F2C59 50%, #1E3E62 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #FFFFFF;
+        }
+
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1.5rem;
+        }
+
+        .portal-container {
+            width: 100%;
+            max-width: 860px;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(16px);
+            border-radius: var(--radius-xl);
+            padding: 3rem 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            color: var(--slate-900);
+        }
+
+        .portal-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid var(--slate-100);
+            padding-bottom: 1.75rem;
+        }
+
+        .portal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-100);
+            color: var(--primary-800);
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .portal-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-900);
+            line-height: 1.25;
+            margin-bottom: 0.6rem;
+            letter-spacing: -0.02em;
+        }
+
+        .portal-subtitle {
+            font-size: 1.05rem;
+            color: var(--slate-600);
+        }
+
+        .form-buttons-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .btn-form-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--white);
+            border: 2px solid var(--slate-200);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.5rem;
+            text-decoration: none;
+            color: var(--slate-800);
+            transition: all 0.25s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-form-item:hover {
+            border-color: var(--primary-500);
+            background: var(--primary-50);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px -5px rgba(37, 99, 235, 0.15);
+            color: var(--primary-900);
+        }
+
+        .form-item-left {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .form-item-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .form-item-text h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--slate-900);
+            margin-bottom: 0.2rem;
+        }
+
+        .form-item-text p {
+            font-size: 0.875rem;
+            color: var(--slate-600);
+        }
+
+        .form-item-arrow {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--slate-100);
+            color: var(--slate-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.25s ease;
+            flex-shrink: 0;
+        }
+
+        .btn-form-item:hover .form-item-arrow {
+            background: var(--primary-600);
+            color: var(--white);
+            transform: translateX(4px);
+        }
+
+        .portal-footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            font-size: 0.85rem;
+            color: var(--slate-400);
+        }
+
+        @media (max-width: 640px) {
+            .portal-container {
+                padding: 2rem 1.25rem;
+            }
+
+            .portal-title {
+                font-size: 1.75rem;
+            }
+
+            .btn-form-item {
+                padding: 1rem;
+            }
+
+            .form-item-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="main-wrapper">
+        <div class="portal-container">
+
+            <!-- Header Title -->
+            <div class="portal-header">
+                <div class="portal-badge">
+                    <i class="fa-solid fa-award"></i> Konsensus KKNI 2026
+                </div>
+                <h1 class="portal-title">Konsensus KKNI Bidang Pengawasan/Audit Intern dan Manajemen Risiko Sektor
+                    Publik</h1>
+                <p class="portal-subtitle">Silakan pilih formulir di bawah ini untuk memulai pengisian data resmi
+                    konsensus:</p>
+            </div>
+
+            <!-- Form Buttons List -->
+            <div class="form-buttons-list">
+
+                <!-- Button 1: Konfirmasi Kehadiran -->
+                <a href="forms/konfirmasi.html" class="btn-form-item">
+                    <div class="form-item-left">
+                        <div class="form-item-icon icon-blue">
+                            <i class="fa-solid fa-user-check"></i>
+                        </div>
+                        <div class="form-item-text">
+                            <h3>1. Form Konfirmasi Kehadiran Peserta</h3>
+                            <p>Registrasi awal kehadiran peserta (Luring / Daring) & data akomodasi</p>
+                        </div>
+                    </div>
+                    <div class="form-item-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Button 2: Daftar Hadir Pesensus -->
+                <a href="forms/daftar-hadir.html" class="btn-form-item">
+                    <div class="form-item-left">
+                        <div class="form-item-icon icon-emerald">
+                            <i class="fa-solid fa-clipboard-user"></i>
+                        </div>
+                        <div class="form-item-text">
+                            <h3>2. Form Daftar Hadir Pesensus (Absensi Sesi)</h3>
+                            <p>Presensi resmi per sesi sidang pleno/komisi dilengkapi Tanda Tangan Digital</p>
+                        </div>
+                    </div>
+                    <div class="form-item-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Button 3: Lembar Tanggapan & Masukan -->
+                <a href="forms/tanggapan.html" class="btn-form-item">
+                    <div class="form-item-left">
+                        <div class="form-item-icon icon-amber">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <div class="form-item-text">
+                            <h3>3. Form Lembar Tanggapan & Masukan Draft RSKKNI</h3>
+                            <p>Pengajuan usulan perbaikan, masukan substantif & redaksional standar</p>
+                        </div>
+                    </div>
+                    <div class="form-item-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Button 4: Rekapitulasi Keterwakilan -->
+                <a href="forms/keterwakilan.html" class="btn-form-item">
+                    <div class="form-item-left">
+                        <div class="form-item-icon icon-purple">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <div class="form-item-text">
+                            <h3>4. Form Rekapitulasi Keterwakilan Stakeholder</h3>
+                            <p>Perhitungan & verifikasi kuorum 5 unsur pemangku kepentingan</p>
+                        </div>
+                    </div>
+                    <div class="form-item-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Button 5: Surat Ketersediaan Berkontribusi -->
+                <a href="forms/ketersediaan.html" class="btn-form-item">
+                    <div class="form-item-left">
+                        <div class="form-item-icon icon-cyan">
+                            <i class="fa-solid fa-file-contract"></i>
+                        </div>
+                        <div class="form-item-text">
+                            <h3>5. Form Surat Ketersediaan Berkontribusi</h3>
+                            <p>Pernyataan komitmen kesediaan pakar sebagai Tim Perumus / Verifikator</p>
+                        </div>
+                    </div>
+                    <div class="form-item-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
+
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="portal-footer">
+        &copy; 2026 Tim TI Konsensus KKNI
+    </footer>
+
+</body>
+
+</html>

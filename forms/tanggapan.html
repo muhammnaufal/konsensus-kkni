@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Tanggapan & Masukan Draft RSKKNI - Konsensus KKNI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/app.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="../index.html" class="brand-logo">
+        <div class="brand-icon">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <div class="brand-text">
+          <h1>KONSENSUS KKNI</h1>
+          <span>Kerangka Kualifikasi Nasional Indonesia</span>
+        </div>
+      </a>
+      <a href="../index.html" class="btn btn-secondary btn-sm">
+        <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda
+      </a>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="form-page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html"><i class="fa-solid fa-house"></i> Beranda</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Form Lembar Tanggapan & Masukan</span>
+      </div>
+      <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Form Lembar Tanggapan & Masukan RSKKNI</h1>
+      <p style="color: var(--slate-300); font-size: 0.95rem;">Formulir pengajuan usulan perbaikan, masukan substantif, dan koreksi redaksional terhadap Draft RSKKNI/KKNI.</p>
+    </div>
+  </header>
+
+  <main class="container container-sm">
+    <div class="form-box">
+      <form id="formTanggapan" novalidate>
+        
+        <!-- Section 1: Identitas Penanggap -->
+        <div class="form-section-title">
+          <i class="fa-solid fa-user-pen"></i> Identitas Pakar / Pesensus Penanggap
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="namaPenanggap">Nama Lengkap & Gelar <span class="required">*</span></label>
+            <input type="text" id="namaPenanggap" class="form-control" placeholder="Contoh: Ir. Rina Wijaya, M.Kom" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="instansiPenanggap">Instansi / Perusahaan <span class="required">*</span></label>
+            <input type="text" id="instansiPenanggap" class="form-control" placeholder="Contoh: Ikatan Ahli Informatika Indonesia" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="unsurPenanggap">Unsur Keterwakilan <span class="required">*</span></label>
+            <select id="unsurPenanggap" class="form-control" required>
+              <option value="">-- Pilih Unsur --</option>
+              <option value="Industri / DUDI">Industri / DUDI</option>
+              <option value="Akademisi / LDP">Akademisi / LDP</option>
+              <option value="Asosiasi Profesi">Asosiasi Profesi</option>
+              <option value="Pakar / Praktisi">Pakar / Praktisi Mandiri</option>
+              <option value="Pemerintah">Instansi Pemerintah</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="komisi">Sidang Komisi Terkait <span class="required">*</span></label>
+            <select id="komisi" class="form-control" required>
+              <option value="Komisi A - Core Competency & Deskriptor">Komisi A - Core Competency & Deskriptor KKNI</option>
+              <option value="Komisi B - Elemen Pendukung & Kode Etik">Komisi B - Elemen Pendukung & Kode Etik</option>
+              <option value="Komisi C - Persyaratan Pemohon & Asesmen">Komisi C - Persyaratan Pemohon & Asesmen</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Section 2: Detail Tanggapan & Masukan -->
+        <div class="form-section-title" style="margin-top: 2rem;">
+          <i class="fa-solid fa-file-signature"></i> Detail Masukan & Usulan Perubahan RSKKNI
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="bagDokumen">Bagian / Bab RSKKNI yang Ditanggapi <span class="required">*</span></label>
+            <select id="bagDokumen" class="form-control" required>
+              <option value="">-- Pilih Bagian RSKKNI --</option>
+              <option value="Bab I - Pendahuluan & Latar Belakang">Bab I - Pendahuluan & Latar Belakang</option>
+              <option value="Bab II - Matriks Jenjang Kualifikasi (Level 1-9)">Bab II - Matriks Jenjang Kualifikasi (Level 1-9)</option>
+              <option value="Bab III - Deskriptor & Capaian Pembelajaran">Bab III - Deskriptor & Capaian Pembelajaran</option>
+              <option value="Unit Kompetensi Core / Utama">Unit Kompetensi Core / Utama</option>
+              <option value="Unit Kompetensi Manajerial / Umum">Unit Kompetensi Manajerial / Umum</option>
+              <option value="Lampiran & Skema Sertifikasi">Lampiran & Skema Sertifikasi</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="jenisTanggapan">Jenis Usulan Tanggapan <span class="required">*</span></label>
+            <select id="jenisTanggapan" class="form-control" required>
+              <option value="Substantif (Perubahan Konsep / Pengertian)">Substantif (Perubahan Konsep / Pengertian)</option>
+              <option value="Redaksional (Ejaan / Tata Bahasa / Istilah)">Redaksional (Ejaan / Tata Bahasa / Istilah)</option>
+              <option value="Penambahan Unit / Elemen Baru">Penambahan Unit / Elemen Baru</option>
+              <option value="Penghapusan / Usulan Drop Unit">Penghapusan / Usulan Drop Unit</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="nomorKode">Nomor Elemen / Kode Unit / Pasal yang Ditanggapi <span class="required">*</span></label>
+          <input type="text" id="nomorKode" class="form-control" placeholder="Contoh: Unit J.620100.001.01 / Elemen 2.1 / Deskriptor Level 6" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="uraianEksisting">Uraian Text Eksisting pada Draft RSKKNI <span class="required">*</span></label>
+          <textarea id="uraianEksisting" class="form-control" placeholder="Ketik atau paste uraian teks asli pada draft RSKKNI yang ingin diubah..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="usulanPerubahan">Usulan Perubahan Teks / Matriks <span class="required">*</span></label>
+          <textarea id="usulanPerubahan" class="form-control" placeholder="Tuliskan rumusan usulan perubahan baru yang direkomendasikan..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="alasanRasional">Alasan & Rasionalisasi Perubahan <span class="required">*</span></label>
+          <textarea id="alasanRasional" class="form-control" placeholder="Jelaskan rasional akademis/praktis di industri mengapa perubahan ini sangat diperlukan..." required></textarea>
+        </div>
+
+        <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+          <button type="submit" class="btn btn-primary btn-lg" style="flex: 1;">
+            <i class="fa-solid fa-paper-plane"></i> Kirim Tanggapan & Masukan
+          </button>
+          <button type="button" id="btnDraftTanggapan" class="btn btn-secondary btn-lg">
+            <i class="fa-solid fa-floppy-disk"></i> Simpan Draft
+          </button>
+        </div>
+
+      </form>
+
+      <!-- Confirmation State -->
+      <div id="suksesTanggapanBox" style="display: none; text-align: center; padding: 2rem 1rem;">
+        <div style="width: 70px; height: 70px; background: #FEF3C7; color: var(--accent-amber-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.5rem auto;">
+          <i class="fa-solid fa-comments"></i>
+        </div>
+        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.5rem;">Tanggapan Masuk ke Berita Acara!</h2>
+        <p style="color: var(--slate-600); margin-bottom: 1.5rem;">Masukan dan usulan perubahan Anda telah berhasil disimpan dan diteruskan ke Tim Perumus Komisi.</p>
+
+        <div style="background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 1.25rem; max-width: 450px; margin: 0 auto 2rem auto; text-align: left;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--slate-500);">ID Masukan:</span>
+            <strong style="color: var(--slate-900);" id="tangID">TGP-9281</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--slate-500);">Penanggap:</span>
+            <span style="font-weight: 600; color: var(--slate-900);" id="tangNama">-</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--slate-500);">Jenis Usulan:</span>
+            <span class="badge badge-warning" id="tangJenis">Substantif</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+            <span style="color: var(--slate-500);">Komisi:</span>
+            <span id="tangKomisi">-</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <a href="../index.html" class="btn btn-primary">
+            <i class="fa-solid fa-house"></i> Beranda
+          </a>
+          <button type="button" onclick="location.reload();" class="btn btn-secondary">
+            <i class="fa-solid fa-plus"></i> Tambah Masukan Lain
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="toast-container" id="toastWrap"></div>
+
+  <script src="../js/tanggapan.js"></script>
+</body>
+</html>

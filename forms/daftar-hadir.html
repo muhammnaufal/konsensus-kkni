@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Daftar Hadir Pesensus - Konsensus KKNI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/app.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="../index.html" class="brand-logo">
+        <div class="brand-icon">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <div class="brand-text">
+          <h1>KONSENSUS KKNI</h1>
+          <span>Kerangka Kualifikasi Nasional Indonesia</span>
+        </div>
+      </a>
+      <a href="../index.html" class="btn btn-secondary btn-sm">
+        <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda
+      </a>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="form-page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html"><i class="fa-solid fa-house"></i> Beranda</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Form Daftar Hadir Pesensus</span>
+      </div>
+      <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Form Daftar Hadir Sesi Konsensus</h1>
+      <p style="color: var(--slate-300); font-size: 0.95rem;">Formulir presensi kehadiran resmi peserta untuk keabsahan berita acara konsensus nasional.</p>
+    </div>
+  </header>
+
+  <main class="container container-sm">
+    <div class="form-box">
+      <form id="formDaftarHadir" novalidate>
+        
+        <!-- Section 1: Sesi Sidang -->
+        <div class="form-section-title">
+          <i class="fa-solid fa-clock"></i> Sesi Sidang & Tanggal Presensi
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="sesiSidang">Pilih Sesi Sidang Konsensus <span class="required">*</span></label>
+            <select id="sesiSidang" class="form-control" required>
+              <option value="">-- Pilih Sesi Sidang --</option>
+              <option value="Sidang Pleno I - Pembukaan & Penjelasan RSKKNI" selected>Sidang Pleno I - Pembukaan & Penjelasan RSKKNI</option>
+              <option value="Sidang Komisi A - Kompepensi Core & Jenjang Kualifikasi">Sidang Komisi A - Kompetensi Core & Jenjang Kualifikasi</option>
+              <option value="Sidang Komisi B - Elemen Pendukung & Kode Etik">Sidang Komisi B - Elemen Pendukung & Kode Etik</option>
+              <option value="Sidang Pleno II - Pembacaan Hasil & Penetapan Berita Acara">Sidang Pleno II - Pembacaan Hasil & Penetapan</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="tglPresensi">Tanggal & Waktu Presensi</label>
+            <input type="text" id="tglPresensi" class="form-control" readonly style="background-color: var(--slate-100);">
+          </div>
+        </div>
+
+        <!-- Section 2: Identitas Pesensus -->
+        <div class="form-section-title" style="margin-top: 1.75rem;">
+          <i class="fa-solid fa-user-gear"></i> Identitas Pesensus
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="namaPesensus">Nama Lengkap & Gelar <span class="required">*</span></label>
+            <input type="text" id="namaPesensus" class="form-control" placeholder="Contoh: Prof. Dr. Budi Santoso" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="nipPesensus">NIP / NIK / No. KTP <span class="required">*</span></label>
+            <input type="text" id="nipPesensus" class="form-control" placeholder="Contoh: 3174012304850001" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="instansiPesensus">Instansi / Lembaga / Perusahaan <span class="required">*</span></label>
+            <input type="text" id="instansiPesensus" class="form-control" placeholder="Contoh: Asosiasi Profesi Teknologi Informasi" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="unsurPesensus">Unsur Stakeholder <span class="required">*</span></label>
+            <select id="unsurPesensus" class="form-control" required>
+              <option value="">-- Pilih Unsur --</option>
+              <option value="Industri / DUDI">Industri / DUDI</option>
+              <option value="Akademisi / LDP">Akademisi / LDP</option>
+              <option value="Asosiasi Profesi">Asosiasi Profesi</option>
+              <option value="Pakar / Praktisi">Pakar / Praktisi</option>
+              <option value="Pemerintah">Instansi Pemerintah</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Section 3: Tanda Tangan Digital Canvas -->
+        <div class="form-section-title" style="margin-top: 1.75rem;">
+          <i class="fa-solid fa-signature"></i> Tanda Tangan Digital Pesensus
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Sapukan Tanda Tangan pada Kotak di Bawah Ini <span class="required">*</span></label>
+          <div class="signature-wrap">
+            <canvas id="signatureCanvas" width="480" height="180"></canvas>
+            <div class="signature-actions">
+              <button type="button" id="btnClearSig" class="btn btn-secondary btn-sm">
+                <i class="fa-solid fa-eraser"></i> Hapus Tanda Tangan
+              </button>
+            </div>
+          </div>
+          <div class="form-hint"><i class="fa-solid fa-circle-info"></i> Gunakan mouse / layar sentuh smartphone untuk menggoreskan tanda tangan Anda.</div>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <button type="submit" class="btn btn-primary btn-lg btn-block">
+            <i class="fa-solid fa-check-double"></i> Submit Presensi Kehadiran
+          </button>
+        </div>
+
+      </form>
+
+      <!-- Success State -->
+      <div id="suksesAbsenBox" style="display: none; text-align: center; padding: 2rem 1rem;">
+        <div style="width: 70px; height: 70px; background: #DEF7EC; color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.5rem auto;">
+          <i class="fa-solid fa-clipboard-check"></i>
+        </div>
+        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.5rem;">Absensi Berhasil Dicatat!</h2>
+        <p style="color: var(--slate-600); margin-bottom: 1.5rem;">Terima kasih, presensi Anda telah tercatat secara sah di Berita Acara Konsensus KKNI.</p>
+
+        <div style="background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 1.25rem; max-width: 450px; margin: 0 auto 2rem auto; text-align: left;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--slate-500);">Nama Pesensus:</span>
+            <strong style="color: var(--slate-900);" id="absenNama">-</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--slate-500);">Sesi Sidang:</span>
+            <span style="font-weight: 600; color: var(--primary-700);" id="absenSesi">-</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--slate-500);">Kode Verifikasi:</span>
+            <span class="badge badge-primary" id="absenKode">ABS-9281</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+            <span style="color: var(--slate-500);">Waktu Presensi:</span>
+            <span id="absenWaktu">-</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <a href="../index.html" class="btn btn-primary">
+            <i class="fa-solid fa-house"></i> Kembali ke Beranda
+          </a>
+          <button type="button" onclick="location.reload();" class="btn btn-secondary">
+            <i class="fa-solid fa-plus"></i> Presensi Sesi Lain
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="toast-container" id="toastWrap"></div>
+
+  <script src="../js/daftar-hadir.js"></script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Rekapitulasi Keterwakilan Stakeholder - Konsensus KKNI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/app.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="../index.html" class="brand-logo">
+        <div class="brand-icon">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <div class="brand-text">
+          <h1>KONSENSUS KKNI</h1>
+          <span>Kerangka Kualifikasi Nasional Indonesia</span>
+        </div>
+      </a>
+      <a href="../index.html" class="btn btn-secondary btn-sm">
+        <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda
+      </a>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="form-page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html"><i class="fa-solid fa-house"></i> Beranda</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Form Rekapitulasi Keterwakilan</span>
+      </div>
+      <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Form Perhitungan Keterwakilan Stakeholder</h1>
+      <p style="color: var(--slate-300); font-size: 0.95rem;">Formulir verifikasi keterwakilan 5 pemangku kepentingan guna menjamin legalitas & kuorum konsensus KKNI.</p>
+    </div>
+  </header>
+
+  <main class="container container-sm">
+    <div class="form-box">
+      <form id="formKeterwakilan" novalidate>
+        
+        <!-- Live Quorum Dashboard Header -->
+        <div style="background: linear-gradient(135deg, var(--slate-900), var(--primary-900)); color: var(--white); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.1);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div>
+              <h3 style="font-size: 1.15rem; color: var(--white); font-weight: 700;"><i class="fa-solid fa-calculator text-warning me-2"></i> Kalkulator Kuorum Konsensus</h3>
+              <p style="font-size: 0.8rem; color: var(--slate-300);">Minimum keterwakilan: 5 Unsur & Kuorum min. 70% Total Kehadiran</p>
+            </div>
+            <div id="statusKuorumBadge" class="badge badge-success" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+              <i class="fa-solid fa-circle-check"></i> KUORUM TERPENUHI
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
+            <div style="background: rgba(255,255,255,0.07); padding: 0.85rem; border-radius: 10px;">
+              <div style="font-size: 1.6rem; font-weight: 800; color: var(--accent-gold);" id="totalHitungPeserta">128</div>
+              <div style="font-size: 0.75rem; color: var(--slate-300);">Total Pesensus</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.07); padding: 0.85rem; border-radius: 10px;">
+              <div style="font-size: 1.6rem; font-weight: 800; color: var(--success);" id="unsurLengkapCount">5 / 5</div>
+              <div style="font-size: 0.75rem; color: var(--slate-300);">Unsur Terwakili</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.07); padding: 0.85rem; border-radius: 10px;">
+              <div style="font-size: 1.6rem; font-weight: 800; color: #3B82F6;" id="persenKuorumVal">84.5%</div>
+              <div style="font-size: 0.75rem; color: var(--slate-300);">Persentase Kuorum</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Data Verifikator -->
+        <div class="form-section-title">
+          <i class="fa-solid fa-user-shield"></i> Data Verifikator Panitia Konsensus
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="namaVerifikator">Nama Petugas Verifikator <span class="required">*</span></label>
+            <input type="text" id="namaVerifikator" class="form-control" placeholder="Contoh: Hendra Gunawan, S.E. (Sekretariat)" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="tglRekap">Tanggal & Sesi Pleno <span class="required">*</span></label>
+            <input type="text" id="tglRekap" class="form-control" value="10 Sep 2026 — Pleno Penetapan Kuorum" readonly required>
+          </div>
+        </div>
+
+        <!-- Form Inputs 5 Unsur -->
+        <div class="form-section-title" style="margin-top: 1.75rem;">
+          <i class="fa-solid fa-list-ol"></i> Input Jumlah Peserta Per Unsur Stakeholder
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cntIndustri">1. Unsur Industri / Dunia Usaha (DUDI) <span class="required">*</span></label>
+          <input type="number" id="cntIndustri" class="form-control input-calc" min="0" value="42" required>
+          <div class="form-hint">Jumlah perwakilan dari Perusahaan, BUMN, Industri Swasta.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cntAkademisi">2. Unsur Akademisi / Lembaga Diklat (LDP) <span class="required">*</span></label>
+          <input type="number" id="cntAkademisi" class="form-control input-calc" min="0" value="30" required>
+          <div class="form-hint">Jumlah perwakilan Perguruan Tinggi, Poltek, LPK, SMK.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cntAsosiasi">3. Unsur Asosiasi Profesi & Industri <span class="required">*</span></label>
+          <input type="number" id="cntAsosiasi" class="form-control input-calc" min="0" value="25" required>
+          <div class="form-hint">Jumlah perwakilan Organisasi Profesi dan Kamar Dagang.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cntPakar">4. Unsur Pakar / Praktisi / Asesor Competency <span class="required">*</span></label>
+          <input type="number" id="cntPakar" class="form-control input-calc" min="0" value="18" required>
+          <div class="form-hint">Jumlah pakar independen dan asesor kompetensi.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cntPemerintah">5. Unsur Instansi Pemerintah / Kementerian Teknis <span class="required">*</span></label>
+          <input type="number" id="cntPemerintah" class="form-control input-calc" min="0" value="13" required>
+          <div class="form-hint">Jumlah pembina sektor kementerian/lembaga.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="catatanVerifikasi">Catatan / Kesimpulan Verifikasi Kuorum</label>
+          <textarea id="catatanVerifikasi" class="form-control" placeholder="Tuliskan catatan verifikasi kuorum untuk dilaporkan pada Sidang Pleno..."></textarea>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <button type="submit" class="btn btn-primary btn-lg btn-block">
+            <i class="fa-solid fa-file-export"></i> Simpan & Sahkan Rekapitulasi Keterwakilan
+          </button>
+        </div>
+
+      </form>
+
+      <!-- Success State -->
+      <div id="suksesRekapBox" style="display: none; text-align: center; padding: 2rem 1rem;">
+        <div style="width: 70px; height: 70px; background: #F3E8FF; color: #9333EA; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.5rem auto;">
+          <i class="fa-solid fa-chart-pie"></i>
+        </div>
+        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.5rem;">Rekapitulasi Berhasil Disahkan!</h2>
+        <p style="color: var(--slate-600); margin-bottom: 1.5rem;">Berita acara perhitungan kuorum keterwakilan stakeholder telah diterbitkan secara sah.</p>
+
+        <div style="background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 1.25rem; max-width: 450px; margin: 0 auto 2rem auto; text-align: left;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--slate-500);">ID Berita Acara:</span>
+            <strong style="color: var(--slate-900);" id="rekapID">BA-KTR-9281</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--slate-500);">Total Pesensus:</span>
+            <span style="font-weight: 700; color: var(--primary-700);" id="rekapTotal">128 Peserta</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--slate-500);">Status Legalitas:</span>
+            <span class="badge badge-success" id="rekapStatus">KUORUM SAH (5/5 Unsur)</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+            <span style="color: var(--slate-500);">Verifikator:</span>
+            <span id="rekapPetugas">-</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <a href="../index.html" class="btn btn-primary">
+            <i class="fa-solid fa-house"></i> Beranda
+          </a>
+          <button type="button" onclick="location.reload();" class="btn btn-secondary">
+            <i class="fa-solid fa-arrows-rotate"></i> Hitung Ulang
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="toast-container" id="toastWrap"></div>
+
+  <script src="../js/keterwakilan.js"></script>
+</body>
+</html>

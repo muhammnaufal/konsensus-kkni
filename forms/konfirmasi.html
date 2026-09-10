@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Konfirmasi Kehadiran Peserta - Konsensus KKNI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/app.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="../index.html" class="brand-logo">
+        <div class="brand-icon">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <div class="brand-text">
+          <h1>KONSENSUS KKNI</h1>
+          <span>Kerangka Kualifikasi Nasional Indonesia</span>
+        </div>
+      </a>
+      <a href="../index.html" class="btn btn-secondary btn-sm">
+        <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda
+      </a>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="form-page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html"><i class="fa-solid fa-house"></i> Beranda</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Form Konfirmasi Kehadiran</span>
+      </div>
+      <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Form Konfirmasi Kehadiran Peserta</h1>
+      <p style="color: var(--slate-300); font-size: 0.95rem;">Mohon mengisi formulir registrasi awal ini untuk kepastian akomodasi dan kehadiran acara konsensus.</p>
+    </div>
+  </header>
+
+  <main class="container container-sm">
+    <div class="form-box">
+      <form id="formKonfirmasi" novalidate>
+        
+        <!-- Section 1 -->
+        <div class="form-section-title">
+          <i class="fa-solid fa-id-card"></i> Identitas & Contact Person Pesensus
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="namaLengkap">Nama Lengkap & Gelar <span class="required">*</span></label>
+            <input type="text" id="namaLengkap" class="form-control" placeholder="Contoh: Dr. Ir. Ahmad Subagyo, M.T." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="nipNik">NIP / NIK / Nomor Identitas <span class="required">*</span></label>
+            <input type="text" id="nipNik" class="form-control" placeholder="Contoh: 198205142008011002" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="instansi">Instansi / Perusahaan / Lembaga <span class="required">*</span></label>
+            <input type="text" id="instansi" class="form-control" placeholder="Contoh: PT. Technology Solusindo / Universitas Gadjah Mada" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="jabatan">Jabatan Struktural / Fungsional <span class="required">*</span></label>
+            <input type="text" id="jabatan" class="form-control" placeholder="Contoh: Kepala Pusat Standarisasi / Dosen Senior" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="email">Alamat Email Aktif <span class="required">*</span></label>
+            <input type="email" id="email" class="form-control" placeholder="ahmad@domain.go.id" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="whatsapp">Nomor WhatsApp / HP <span class="required">*</span></label>
+            <input type="tel" id="whatsapp" class="form-control" placeholder="081234567890" required>
+          </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="form-section-title" style="margin-top: 2rem;">
+          <i class="fa-solid fa-users-gear"></i> Unsur Keterwakilan Stakeholder
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Representasi Unsur Pemangku Kepentingan <span class="required">*</span></label>
+          <div class="option-cards-grid">
+            <label class="option-card-label">
+              <input type="radio" name="unsur" value="Industri / Dunia Usaha (DUDI)" checked required>
+              <div class="option-border"></div>
+              <div class="option-content">
+                <div class="option-title"><i class="fa-solid fa-building me-1 text-primary"></i> Industri / DUDI</div>
+                <div class="option-desc">Perusahaan, BUMN, Swasta</div>
+              </div>
+            </label>
+
+            <label class="option-card-label">
+              <input type="radio" name="unsur" value="Akademisi / Lembaga Diklat">
+              <div class="option-border"></div>
+              <div class="option-content">
+                <div class="option-title"><i class="fa-solid fa-graduation-cap me-1 text-primary"></i> Akademisi / LDP</div>
+                <div class="option-desc">Perguruan Tinggi, LPK, SMK</div>
+              </div>
+            </label>
+
+            <label class="option-card-label">
+              <input type="radio" name="unsur" value="Asosiasi Profesi / Industri">
+              <div class="option-border"></div>
+              <div class="option-content">
+                <div class="option-title"><i class="fa-solid fa-user-group me-1 text-primary"></i> Asosiasi Profesi</div>
+                <div class="option-desc">Organisasi Profesi / Industri</div>
+              </div>
+            </label>
+
+            <label class="option-card-label">
+              <input type="radio" name="unsur" value="Pakar / Praktisi Mandiri">
+              <div class="option-border"></div>
+              <div class="option-content">
+                <div class="option-title"><i class="fa-solid fa-user-tie me-1 text-primary"></i> Pakar / Praktisi</div>
+                <div class="option-desc">Konsultan, Asesor Competency</div>
+              </div>
+            </label>
+
+            <label class="option-card-label">
+              <input type="radio" name="unsur" value="Instansi Pemerintah / Kementerian">
+              <div class="option-border"></div>
+              <div class="option-content">
+                <div class="option-title"><i class="fa-solid fa-landmark me-1 text-primary"></i> Pemerintah</div>
+                <div class="option-desc">Kementerian / Dinas Teknis</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="form-section-title" style="margin-top: 2rem;">
+          <i class="fa-solid fa-plane-arrival"></i> Mode Kehadiran & Akomodasi
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Konfirmasi Metode Hadir <span class="required">*</span></label>
+          <div class="option-cards-grid">
+            <label class="option-card-label">
+              <input type="radio" name="modeHadir" value="Luring (Tatap Muka di Ballroom)" checked required>
+              <div class="option-border"></div>
+              <div class="option-content">
+                <div class="option-title"><i class="fa-solid fa-hotel me-1 text-success"></i> Hadir Luring</div>
+                <div class="option-desc">Tatap Muka di Grand Ballroom Hotel</div>
+              </div>
+            </label>
+
+            <label class="option-card-label">
+              <input type="radio" name="modeHadir" value="Daring (Virtual via Zoom)">
+              <div class="option-border"></div>
+              <div class="option-content">
+                <div class="option-title"><i class="fa-solid fa-video me-1 text-info"></i> Hadir Daring</div>
+                <div class="option-desc">Akses Virtual Video Conference</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row" id="akomodasiRow">
+          <div class="form-group">
+            <label class="form-label" for="tglCheckin">Tanggal Check-In Hotel</label>
+            <input type="date" id="tglCheckin" class="form-control" value="2026-09-10">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="tglCheckout">Tanggal Check-Out Hotel</label>
+            <input type="date" id="tglCheckout" class="form-control" value="2026-09-12">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="catatan">Catatan Khusus / Kebutuhan Aksesibilitas (Opsional)</label>
+          <textarea id="catatan" class="form-control" placeholder="Contoh: Kebutuhan konsumsi khusus (Vegetarian/Halal), aksesibilitas kursi roda, dll."></textarea>
+        </div>
+
+        <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+          <button type="submit" class="btn btn-primary btn-lg" style="flex: 1;">
+            <i class="fa-solid fa-paper-plane"></i> Kirim Konfirmasi Kehadiran
+          </button>
+          <button type="button" id="btnDraft" class="btn btn-secondary btn-lg">
+            <i class="fa-solid fa-floppy-disk"></i> Simpan Draft
+          </button>
+        </div>
+
+      </form>
+
+      <!-- Confirmation Success State (Hidden by default) -->
+      <div id="suksesBox" style="display: none; text-align: center; padding: 2rem 1rem;">
+        <div style="width: 70px; height: 70px; background: #DEF7EC; color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.5rem auto;">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.5rem;">Konfirmasi Berhasil Dikirim!</h2>
+        <p style="color: var(--slate-600); margin-bottom: 1.5rem;" id="suksesText">Terima kasih. Data konfirmasi kehadiran Anda telah tersimpan di sistem Konsensus KKNI.</p>
+        
+        <div style="background: var(--slate-50); border: 1px dashed var(--slate-300); padding: 1.25rem; border-radius: 12px; max-width: 450px; margin: 0 auto 2rem auto; text-align: left;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--slate-500);">Nomor Registrasi:</span>
+            <strong style="color: var(--primary-700);" id="refCode">REG-KKNI-8492</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--slate-500);">Status Kehadiran:</span>
+            <span class="badge badge-success" id="refMode">Luring</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+            <span style="color: var(--slate-500);">Waktu Simpan:</span>
+            <span id="refTime">10 Sep 2026 10:00 WIB</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <a href="../index.html" class="btn btn-primary">
+            <i class="fa-solid fa-house"></i> Kembali ke Beranda
+          </a>
+          <button type="button" onclick="location.reload();" class="btn btn-secondary">
+            <i class="fa-solid fa-arrows-rotate"></i> Isi Lagi
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="toast-container" id="toastWrap"></div>
+
+  <script src="../js/konfirmasi.js"></script>
+</body>
+</html>
