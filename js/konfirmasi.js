@@ -39,14 +39,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (canvas) {
     ctx = canvas.getContext('2d');
     ctx.strokeStyle = '#1A1F36';
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 3;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
     function getCoordinates(e) {
       const rect = canvas.getBoundingClientRect();
-      const scaleX = canvas.width / rect.width;
-      const scaleY = canvas.height / rect.height;
+      const scaleX = canvas.width / (rect.width || 1);
+      const scaleY = canvas.height / (rect.height || 1);
 
       let clientX = e.clientX;
       let clientY = e.clientY;
@@ -66,6 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.cancelable) e.preventDefault();
       isDrawing = true;
       hasSigned = true;
+
+      // Guarantee stroke properties on every draw start
+      ctx.strokeStyle = '#1A1F36';
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
       const { x, y } = getCoordinates(e);
       lastX = x;
       lastY = y;
@@ -87,13 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
       isDrawing = false;
     }
 
-    // Mouse Event Listeners
+    // Mouse Listeners
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseleave', stopDrawing);
 
-    // Touch Event Listeners (Mobile & Touchscreen)
+    // Touch Listeners (Mobile & Tablet)
     canvas.addEventListener('touchstart', startDrawing, { passive: false });
     canvas.addEventListener('touchmove', draw, { passive: false });
     canvas.addEventListener('touchend', stopDrawing);

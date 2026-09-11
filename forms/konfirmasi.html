@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,62 +37,62 @@
       padding: 0.5rem 1rem;
       background: #FFFFFF;
       border-radius: 9999px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
       transition: all 0.2s ease;
     }
 
     .btn-back:hover {
       color: #1E293B;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .card-konfirmasi {
       width: 100%;
-      max-width: 520px;
+      max-width: 720px;
       background: #FFFFFF;
       border-radius: 24px;
-      padding: 2.75rem 2.5rem;
-      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.07), 0 5px 15px -3px rgba(0, 0, 0, 0.04);
+      padding: 3rem 3.5rem;
+      box-shadow: 0 20px 45px -5px rgba(0, 0, 0, 0.08), 0 8px 20px -4px rgba(0, 0, 0, 0.04);
       margin: 2rem auto;
     }
 
     .card-header {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 2.25rem;
     }
 
     .card-title {
       font-family: var(--font-heading);
-      font-size: 1.75rem;
+      font-size: 2rem;
       font-weight: 800;
       color: #1E293B;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.4rem;
       letter-spacing: -0.02em;
     }
 
     .card-subtitle {
-      font-size: 0.95rem;
+      font-size: 1rem;
       color: #64748B;
     }
 
     .form-group-item {
-      margin-bottom: 1.35rem;
+      margin-bottom: 1.5rem;
     }
 
     .form-group-item label {
       display: block;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 600;
       color: #334155;
-      margin-bottom: 0.45rem;
+      margin-bottom: 0.5rem;
     }
 
     .input-custom {
       width: 100%;
-      padding: 0.75rem 1rem;
+      padding: 0.85rem 1.1rem;
       font-family: var(--font-body);
-      font-size: 0.95rem;
+      font-size: 0.975rem;
       color: #0F172A;
       background-color: #FFFFFF;
       border: 1px solid #E2E8F0;
@@ -113,7 +114,7 @@
     .mode-options-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.85rem;
+      gap: 1rem;
     }
 
     .mode-pill-label {
@@ -122,12 +123,12 @@
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      padding: 0.8rem 0.5rem;
+      padding: 0.9rem 0.75rem;
       background: #F8FAFC;
       border: 1.5px solid #E2E8F0;
       border-radius: 12px;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 600;
       color: #475569;
       transition: all 0.2s ease;
@@ -164,7 +165,7 @@
       background: #FAFBFD;
       position: relative;
       overflow: hidden;
-      height: 150px;
+      height: 180px;
     }
 
     canvas#sigCanvas {
@@ -230,12 +231,14 @@
         padding: 2rem 1.5rem;
         border-radius: 18px;
       }
+
       .card-title {
         font-size: 1.5rem;
       }
     }
   </style>
 </head>
+
 <body>
 
   <!-- Top back navigation -->
@@ -246,7 +249,7 @@
   </div>
 
   <main class="card-konfirmasi">
-    
+
     <!-- Card Header -->
     <div class="card-header">
       <h1 class="card-title">Konfirmasi Kehadiran</h1>
@@ -255,7 +258,7 @@
 
     <!-- Form -->
     <form id="formKonfirmasi" novalidate>
-      
+
       <!-- Nama Lengkap -->
       <div class="form-group-item">
         <label for="namaLengkap">Nama Lengkap</label>
@@ -293,7 +296,7 @@
       <div class="form-group-item">
         <label>Tanda Tangan</label>
         <div class="signature-box">
-          <canvas id="sigCanvas" width="480" height="150"></canvas>
+          <canvas id="sigCanvas" width="650" height="180"></canvas>
         </div>
         <div class="signature-footer">
           <button type="button" id="btnClearSig" class="btn-clear-sig">Bersihkan Ulang</button>
@@ -307,13 +310,16 @@
 
     <!-- Success View -->
     <div id="suksesBox" style="display: none; text-align: center; padding: 1.5rem 0;">
-      <div style="width: 64px; height: 64px; background: #EEF2FF; color: #635BFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem auto;">
+      <div
+        style="width: 64px; height: 64px; background: #EEF2FF; color: #635BFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem auto;">
         <i class="fa-solid fa-circle-check"></i>
       </div>
       <h2 style="font-size: 1.5rem; font-weight: 800; color: #1E293B; margin-bottom: 0.35rem;">Konfirmasi Berhasil!</h2>
-      <p style="color: #64748B; font-size: 0.95rem; margin-bottom: 1.5rem;">Terima kasih. Data konfirmasi kehadiran Anda telah tersimpan di sistem.</p>
-      
-      <div style="background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.75rem; text-align: left;">
+      <p style="color: #64748B; font-size: 0.95rem; margin-bottom: 1.5rem;">Terima kasih. Data konfirmasi kehadiran Anda
+        telah tersimpan di sistem.</p>
+
+      <div
+        style="background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.75rem; text-align: left;">
         <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.4rem;">
           <span style="color: #64748B;">No. Registrasi:</span>
           <strong style="color: #4F46E5;" id="refCode">REG-KKNI-1001</strong>
@@ -329,10 +335,12 @@
       </div>
 
       <div style="display: flex; gap: 0.75rem; justify-content: center;">
-        <a href="../index.html" class="btn-submit-main" style="display: inline-block; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.9rem; margin-top: 0; width: auto;">
+        <a href="../index.html" class="btn-submit-main"
+          style="display: inline-block; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.9rem; margin-top: 0; width: auto;">
           <i class="fa-solid fa-house"></i> Kembali ke Beranda
         </a>
-        <button type="button" onclick="location.reload();" class="btn-back" style="padding: 0.75rem 1.25rem; font-size: 0.9rem;">
+        <button type="button" onclick="location.reload();" class="btn-back"
+          style="padding: 0.75rem 1.25rem; font-size: 0.9rem;">
           <i class="fa-solid fa-rotate-right"></i> Isi Lagi
         </button>
       </div>
@@ -342,7 +350,7 @@
 
   <div class="toast-container" id="toastWrap"></div>
 
-  <script src="../js/konfirmasi.js"></script>
+  <script src="../js/konfirmasi.js?v=2.0"></script>
 </body>
-</html>
 
+</html>

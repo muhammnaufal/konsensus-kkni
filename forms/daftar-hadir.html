@@ -1,173 +1,540 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form Daftar Hadir Pesensus - Konsensus KKNI</title>
+  <title>Daftar Hadir Peserta - Konsensus KKNI</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../css/app.css">
+
+  <!-- jsPDF Libraries for Admin PDF Generator -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  <style>
+    body {
+      background: #EBF1F6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      font-family: var(--font-body);
+      color: #334155;
+    }
+
+    .top-nav {
+      position: absolute;
+      top: 1.25rem;
+      left: 1.5rem;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #64748B;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background: #FFFFFF;
+      border-radius: 9999px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      transition: all 0.2s ease;
+    }
+
+    .btn-back:hover {
+      color: #1E293B;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-konfirmasi {
+      width: 100%;
+      max-width: 760px;
+      background: #FFFFFF;
+      border-radius: 24px;
+      padding: 3rem 3.5rem;
+      box-shadow: 0 20px 45px -5px rgba(0, 0, 0, 0.08), 0 8px 20px -4px rgba(0, 0, 0, 0.04);
+      margin: 2rem auto;
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 2.25rem;
+    }
+
+    .header-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1E293B;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.02em;
+    }
+
+    .card-subtitle {
+      font-size: 1rem;
+      color: #64748B;
+    }
+
+    .section-divider {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #1E293B;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid #E2E8F0;
+      margin-bottom: 1.75rem;
+    }
+
+    .form-group-item {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group-item label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group-item label .required {
+      color: #EF4444;
+      margin-left: 0.15rem;
+    }
+
+    .input-custom,
+    select.input-custom {
+      width: 100%;
+      padding: 0.85rem 1.1rem;
+      font-family: var(--font-body);
+      font-size: 0.975rem;
+      color: #0F172A;
+      background-color: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.2s ease;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    select.input-custom {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2064748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1.1em;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+
+    .input-custom::placeholder {
+      color: #94A3B8;
+    }
+
+    .input-custom:focus,
+    select.input-custom:focus {
+      border-color: #6366F1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    /* Signature Box */
+    .signature-box {
+      border: 1.5px dashed #CBD5E1;
+      border-radius: 14px;
+      background: #FAFBFD;
+      position: relative;
+      overflow: hidden;
+      height: 180px;
+    }
+
+    canvas#sigCanvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    .signature-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0.5rem;
+    }
+
+    .btn-clear-sig {
+      background: none;
+      border: none;
+      color: #EF4444;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-clear-sig:hover {
+      background: #FEE2E2;
+      color: #DC2626;
+    }
+
+    /* Buttons */
+    .btn-submit-main {
+      width: 100%;
+      padding: 0.95rem 1.5rem;
+      background: #635BFF;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      box-shadow: 0 4px 14px rgba(99, 91, 255, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .btn-submit-main:hover {
+      background: #4F46E5;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(99, 91, 255, 0.45);
+    }
+
+    .btn-submit-main:disabled {
+      background: #9CA3AF;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Admin Section */
+    .admin-section {
+      margin-top: 3.5rem;
+      padding: 2rem;
+      background: #F0FDF4;
+      border: 1.5px solid #BBF7D0;
+      border-radius: 16px;
+    }
+
+    .admin-section .admin-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #166534;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .admin-section p {
+      font-size: 0.9rem;
+      color: #15803D;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-admin {
+      width: 100%;
+      padding: 0.9rem;
+      background: #10B981;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-admin:hover {
+      background: #059669;
+      transform: translateY(-1px);
+    }
+
+    .pdf-viewer-container {
+      display: none;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    .pdf-viewer-container h4 {
+      font-size: 0.95rem;
+      color: #374151;
+      margin-bottom: 0.75rem;
+    }
+
+    iframe.pdf-viewer {
+      width: 100%;
+      height: 550px;
+      border: 1px solid #CBD5E1;
+      border-radius: 12px;
+      background: #FFFFFF;
+    }
+
+    .btn-download-direct {
+      background: #EF4444;
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-download-direct:hover {
+      background: #DC2626;
+      color: white;
+    }
+
+    .message-banner {
+      display: none;
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    .message-success {
+      background: #DCFCE7;
+      color: #166534;
+      border: 1px solid #BBF7D0;
+    }
+
+    .message-error {
+      background: #FEE2E2;
+      color: #991B1B;
+      border: 1px solid #FECACA;
+    }
+
+    @media (max-width: 576px) {
+      .card-konfirmasi {
+        padding: 2rem 1.5rem;
+        border-radius: 18px;
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="container navbar-inner">
-      <a href="../index.html" class="brand-logo">
-        <div class="brand-icon">
-          <i class="fa-solid fa-award"></i>
-        </div>
-        <div class="brand-text">
-          <h1>KONSENSUS KKNI</h1>
-          <span>Kerangka Kualifikasi Nasional Indonesia</span>
-        </div>
-      </a>
-      <a href="../index.html" class="btn btn-secondary btn-sm">
-        <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda
-      </a>
-    </div>
-  </nav>
+  <!-- Top back navigation -->
+  <div class="top-nav">
+    <a href="../index.html" class="btn-back">
+      <i class="fa-solid fa-arrow-left"></i> Kembali
+    </a>
+  </div>
 
-  <!-- Page Header -->
-  <header class="form-page-header">
-    <div class="container">
-      <div class="breadcrumb">
-        <a href="../index.html"><i class="fa-solid fa-house"></i> Beranda</a>
-        <i class="fa-solid fa-chevron-right"></i>
-        <span>Form Daftar Hadir Pesensus</span>
+  <main class="card-konfirmasi">
+
+    <!-- Card Header -->
+    <div class="card-header">
+      <span class="header-icon">📋</span>
+      <h1 class="card-title">Konsensus KKNI</h1>
+      <p class="card-subtitle">Daftar Hadir Peserta</p>
+    </div>
+
+    <!-- Message Banners -->
+    <div id="successMessage" class="message-banner message-success">
+      ✅ Data kehadiran Anda berhasil disimpan!
+    </div>
+    <div id="errorMessage" class="message-banner message-error">
+      ❌ Terjadi kesalahan pengiriman. Silakan coba lagi.
+    </div>
+
+    <!-- Form -->
+    <form id="formDaftarHadir" novalidate>
+
+      <!-- Kategori Konvensi -->
+      <div class="form-group-item">
+        <label for="kategori">Kategori Konsensus <span class="required">*</span></label>
+        <select id="kategori" name="kategori" class="input-custom" required>
+          <option value="" disabled selected>Pilih Kategori...</option>
+          <option value="Pleno 1">Pleno 1</option>
+          <option value="Pleno 2">Pleno 2</option>
+          <option value="Kelompok">Kelompok</option>
+        </select>
       </div>
-      <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Form Daftar Hadir Sesi Konsensus</h1>
-      <p style="color: var(--slate-300); font-size: 0.95rem;">Formulir presensi kehadiran resmi peserta untuk keabsahan berita acara konsensus nasional.</p>
-    </div>
-  </header>
 
-  <main class="container container-sm">
-    <div class="form-box">
-      <form id="formDaftarHadir" novalidate>
-        
-        <!-- Section 1: Sesi Sidang -->
-        <div class="form-section-title">
-          <i class="fa-solid fa-clock"></i> Sesi Sidang & Tanggal Presensi
+      <!-- Pilihan Kelompok (Dinamis jika Kategori == 'Kelompok') -->
+      <div class="form-group-item" id="kelompokWrapper" style="display: none;">
+        <label for="kelompok">Pilihan Kelompok <span class="required">*</span></label>
+        <select id="kelompok" name="kelompok" class="input-custom">
+          <option value="" disabled selected>Pilih Kelompok...</option>
+          <option value="Pengawasan/Audit Intern">Pengawasan/Audit Intern</option>
+          <option value="Manajemen Risiko Sektor Publik">Manajemen Risiko Sektor Publik</option>
+        </select>
+      </div>
+
+      <!-- KKNI Bidang -->
+      <div class="form-group-item">
+        <label for="kkni">KKNI Bidang <span class="required">*</span></label>
+        <select id="kkni" name="kkni" class="input-custom" required>
+          <option value="" disabled selected>Pilih Bidang...</option>
+          <option value="Pengawasan/Audit Intern & Manajemen Risiko Sektor Publik">Pengawasan/Audit Intern & Manajemen
+            Risiko Sektor Publik</option>
+          <option value="Pengawasan/Audit Intern">Pengawasan/Audit Intern</option>
+          <option value="Manajemen Risiko Sektor Publik">Manajemen Risiko Sektor Publik</option>
+        </select>
+      </div>
+
+      <!-- Tanggal Pelaksanaan -->
+      <div class="form-group-item">
+        <label for="tanggal">Tanggal Pelaksanaan <span class="required">*</span></label>
+        <input type="date" id="tanggal" name="tanggal" class="input-custom" value="2026-09-22" required>
+      </div>
+
+      <!-- Nama Lengkap -->
+      <div class="form-group-item">
+        <label for="nama">Nama Lengkap <span class="required">*</span></label>
+        <input type="text" id="nama" name="nama" class="input-custom" placeholder="Masukkan nama beserta gelar"
+          required>
+      </div>
+
+      <!-- Asal Instansi / Unit Kerja -->
+      <div class="form-group-item">
+        <label for="instansi">Asal Instansi / Unit Kerja <span class="required">*</span></label>
+        <input type="text" id="instansi" name="instansi" class="input-custom"
+          placeholder="Contoh: BPKP, Inspektorat Daerah, dll" required>
+      </div>
+
+      <!-- Tanda Tangan -->
+      <div class="form-group-item">
+        <label>Tanda Tangan <span class="required">*</span></label>
+        <div class="signature-box">
+          <canvas id="sigCanvas" width="650" height="180"></canvas>
         </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="sesiSidang">Pilih Sesi Sidang Konsensus <span class="required">*</span></label>
-            <select id="sesiSidang" class="form-control" required>
-              <option value="">-- Pilih Sesi Sidang --</option>
-              <option value="Sidang Pleno I - Pembukaan & Penjelasan RSKKNI" selected>Sidang Pleno I - Pembukaan & Penjelasan RSKKNI</option>
-              <option value="Sidang Komisi A - Kompepensi Core & Jenjang Kualifikasi">Sidang Komisi A - Kompetensi Core & Jenjang Kualifikasi</option>
-              <option value="Sidang Komisi B - Elemen Pendukung & Kode Etik">Sidang Komisi B - Elemen Pendukung & Kode Etik</option>
-              <option value="Sidang Pleno II - Pembacaan Hasil & Penetapan Berita Acara">Sidang Pleno II - Pembacaan Hasil & Penetapan</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="tglPresensi">Tanggal & Waktu Presensi</label>
-            <input type="text" id="tglPresensi" class="form-control" readonly style="background-color: var(--slate-100);">
-          </div>
-        </div>
-
-        <!-- Section 2: Identitas Pesensus -->
-        <div class="form-section-title" style="margin-top: 1.75rem;">
-          <i class="fa-solid fa-user-gear"></i> Identitas Pesensus
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="namaPesensus">Nama Lengkap & Gelar <span class="required">*</span></label>
-            <input type="text" id="namaPesensus" class="form-control" placeholder="Contoh: Prof. Dr. Budi Santoso" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="nipPesensus">NIP / NIK / No. KTP <span class="required">*</span></label>
-            <input type="text" id="nipPesensus" class="form-control" placeholder="Contoh: 3174012304850001" required>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="instansiPesensus">Instansi / Lembaga / Perusahaan <span class="required">*</span></label>
-            <input type="text" id="instansiPesensus" class="form-control" placeholder="Contoh: Asosiasi Profesi Teknologi Informasi" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="unsurPesensus">Unsur Stakeholder <span class="required">*</span></label>
-            <select id="unsurPesensus" class="form-control" required>
-              <option value="">-- Pilih Unsur --</option>
-              <option value="Industri / DUDI">Industri / DUDI</option>
-              <option value="Akademisi / LDP">Akademisi / LDP</option>
-              <option value="Asosiasi Profesi">Asosiasi Profesi</option>
-              <option value="Pakar / Praktisi">Pakar / Praktisi</option>
-              <option value="Pemerintah">Instansi Pemerintah</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Section 3: Tanda Tangan Digital Canvas -->
-        <div class="form-section-title" style="margin-top: 1.75rem;">
-          <i class="fa-solid fa-signature"></i> Tanda Tangan Digital Pesensus
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Sapukan Tanda Tangan pada Kotak di Bawah Ini <span class="required">*</span></label>
-          <div class="signature-wrap">
-            <canvas id="signatureCanvas" width="480" height="180"></canvas>
-            <div class="signature-actions">
-              <button type="button" id="btnClearSig" class="btn btn-secondary btn-sm">
-                <i class="fa-solid fa-eraser"></i> Hapus Tanda Tangan
-              </button>
-            </div>
-          </div>
-          <div class="form-hint"><i class="fa-solid fa-circle-info"></i> Gunakan mouse / layar sentuh smartphone untuk menggoreskan tanda tangan Anda.</div>
-        </div>
-
-        <div style="margin-top: 2rem;">
-          <button type="submit" class="btn btn-primary btn-lg btn-block">
-            <i class="fa-solid fa-check-double"></i> Submit Presensi Kehadiran
-          </button>
-        </div>
-
-      </form>
-
-      <!-- Success State -->
-      <div id="suksesAbsenBox" style="display: none; text-align: center; padding: 2rem 1rem;">
-        <div style="width: 70px; height: 70px; background: #DEF7EC; color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.5rem auto;">
-          <i class="fa-solid fa-clipboard-check"></i>
-        </div>
-        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.5rem;">Absensi Berhasil Dicatat!</h2>
-        <p style="color: var(--slate-600); margin-bottom: 1.5rem;">Terima kasih, presensi Anda telah tercatat secara sah di Berita Acara Konsensus KKNI.</p>
-
-        <div style="background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 1.25rem; max-width: 450px; margin: 0 auto 2rem auto; text-align: left;">
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
-            <span style="color: var(--slate-500);">Nama Pesensus:</span>
-            <strong style="color: var(--slate-900);" id="absenNama">-</strong>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
-            <span style="color: var(--slate-500);">Sesi Sidang:</span>
-            <span style="font-weight: 600; color: var(--primary-700);" id="absenSesi">-</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
-            <span style="color: var(--slate-500);">Kode Verifikasi:</span>
-            <span class="badge badge-primary" id="absenKode">ABS-9281</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
-            <span style="color: var(--slate-500);">Waktu Presensi:</span>
-            <span id="absenWaktu">-</span>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 1rem; justify-content: center;">
-          <a href="../index.html" class="btn btn-primary">
-            <i class="fa-solid fa-house"></i> Kembali ke Beranda
-          </a>
-          <button type="button" onclick="location.reload();" class="btn btn-secondary">
-            <i class="fa-solid fa-plus"></i> Presensi Sesi Lain
-          </button>
+        <div class="signature-footer">
+          <button type="button" id="btnClearSig" class="btn-clear-sig">🗑️ Hapus Tanda Tangan</button>
         </div>
       </div>
 
+      <!-- Submit Button -->
+      <button type="submit" class="btn-submit-main" id="submitBtn">✅ Kirim Daftar Hadir</button>
+
+    </form>
+
+    <!-- Success View Card -->
+    <div id="suksesBox" style="display: none; text-align: center; padding: 1.5rem 0;">
+      <div
+        style="width: 64px; height: 64px; background: #EEF2FF; color: #635BFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem auto;">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <h2 style="font-size: 1.5rem; font-weight: 800; color: #1E293B; margin-bottom: 0.35rem;">Presensi Berhasil
+        Dicatat!</h2>
+      <p style="color: #64748B; font-size: 0.95rem; margin-bottom: 1.5rem;">Terima kasih. Data daftar hadir Anda telah
+        tersimpan di sistem Konsensus KKNI.</p>
+
+      <div
+        style="background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.75rem; text-align: left;">
+        <!-- <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.4rem;">
+          <span style="color: #64748B;">No. Presensi:</span>
+          <strong style="color: #4F46E5;" id="refCode">ABS-KKNI-1001</strong>
+        </div> -->
+        <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.4rem;">
+          <span style="color: #64748B;">Nama:</span>
+          <strong style="color: #1E293B;" id="refNama">-</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.4rem;">
+          <span style="color: #64748B;">Kategori:</span>
+          <span style="font-weight: 600; color: #4F46E5;" id="refKategori">-</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.875rem;">
+          <span style="color: #64748B;">Bidang:</span>
+          <span style="font-weight: 600; color: #10B981;" id="refBidang">-</span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; justify-content: center;">
+        <a href="../index.html" class="btn-submit-main"
+          style="display: inline-block; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.9rem; margin-top: 0; width: auto;">
+          <i class="fa-solid fa-house"></i> Kembali ke Beranda
+        </a>
+        <button type="button" onclick="location.reload();" class="btn-back"
+          style="padding: 0.75rem 1.25rem; font-size: 0.9rem;">
+          <i class="fa-solid fa-rotate-right"></i> Presensi Sesi Lain
+        </button>
+      </div>
     </div>
+
+    <!-- SEKSI ADMIN (TARIK DATA DAFTAR HADIR & GENERATE PDF) -->
+    <div class="admin-section">
+      <div class="admin-title"><i class="fa-solid fa-user-shield"></i> Admin: Tarik Data Daftar Hadir</div>
+      <p>Tarik data dari Spreadsheet dan buatkan PDF.</p>
+
+      <div class="form-group-item">
+        <label for="pdfKategori">Kategori <span class="required">*</span></label>
+        <select id="pdfKategori" class="input-custom" required>
+          <option value="" disabled selected>Pilih Kategori...</option>
+          <option value="Pleno 1">Pleno 1</option>
+          <option value="Pleno 2">Pleno 2</option>
+          <option value="Kelompok">Kelompok</option>
+        </select>
+      </div>
+
+      <div class="form-group-item">
+        <label for="pdfKkni">KKNI Bidang <span class="required">*</span></label>
+        <select id="pdfKkni" class="input-custom" required>
+          <option value="" disabled selected>Pilih Bidang...</option>
+          <option value="Pengawasan/Audit Intern & Manajemen Risiko Sektor Publik">Pengawasan/Audit Intern & Manajemen
+            Risiko Sektor Publik</option>
+          <option value="Pengawasan/Audit Intern">Pengawasan/Audit Intern</option>
+          <option value="Manajemen Risiko Sektor Publik">Manajemen Risiko Sektor Publik</option>
+        </select>
+      </div>
+
+      <div class="form-group-item">
+        <label for="pdfTanggal">Tanggal <span class="required">*</span></label>
+        <input type="date" id="pdfTanggal" class="input-custom" value="2026-09-22" required>
+      </div>
+
+      <button type="button" class="btn-admin" id="btnDownloadPdf">
+        📄 Tampilkan & Simpan PDF ke Drive
+      </button>
+
+      <!-- PRATINJAU DOKUMEN PDF (IFRAME & DIRECT DOWNLOAD) -->
+      <div class="pdf-viewer-container" id="pdfContainer">
+        <h4>⬇️ Pratinjau Dokumen PDF</h4>
+        <a id="directDownloadBtn" class="btn-download-direct" download="DaftarHadir.pdf" href="#">
+          <i class="fa-solid fa-download"></i> Download PDF Langsung ke Laptop
+        </a>
+        <iframe id="pdfViewer" class="pdf-viewer"></iframe>
+      </div>
+
+    </div>
+
   </main>
 
   <div class="toast-container" id="toastWrap"></div>
 
-  <script src="../js/daftar-hadir.js"></script>
+  <script src="../js/daftar-hadir.js?v=4.0"></script>
 </body>
+
 </html>
