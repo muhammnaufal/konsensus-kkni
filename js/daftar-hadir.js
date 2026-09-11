@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // Google Apps Script Web App URL
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbzpjn-vyzxbJHCxRbWiQHAQqtZj2uRz7zARuNMM7lPIUVRUsLuJFl_mDRCEffPh9_rU/exec';
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbz2zCQuI9tJLehAh_gC6OG3ycHxaPrnAmOBF0ly_y7aM9f4rlpA-FQP67PRDNL8EFkB/exec';
 
   const formDaftarHadir = document.getElementById('formDaftarHadir');
   const submitBtn = document.getElementById('submitBtn');

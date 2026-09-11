@@ -1,183 +1,545 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form Rekapitulasi Keterwakilan Stakeholder - Konsensus KKNI</title>
+  <title>Formulir Keterwakilan Peserta - Konsensus KKNI</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../css/app.css">
+
+  <!-- jsPDF & AutoTable Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  <style>
+    body {
+      background: #EBF1F6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      font-family: var(--font-body);
+      color: #334155;
+    }
+
+    .top-nav {
+      position: absolute;
+      top: 1.25rem;
+      left: 1.5rem;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #64748B;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background: #FFFFFF;
+      border-radius: 9999px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      transition: all 0.2s ease;
+    }
+
+    .btn-back:hover {
+      color: #1E293B;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-konfirmasi {
+      width: 100%;
+      max-width: 760px;
+      background: #FFFFFF;
+      border-radius: 24px;
+      padding: 3rem 3.5rem;
+      box-shadow: 0 20px 45px -5px rgba(0, 0, 0, 0.08), 0 8px 20px -4px rgba(0, 0, 0, 0.04);
+      margin: 2rem auto;
+      box-sizing: border-box;
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 2.25rem;
+    }
+
+    .header-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1E293B;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.02em;
+    }
+
+    .card-subtitle {
+      font-size: 1rem;
+      color: #64748B;
+    }
+
+    .card-body {
+      padding: 2.5rem 3rem;
+    }
+
+    .form-title-box {
+      background: #F1F5F9;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      text-align: center;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #1E293B;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #4F46E5;
+      margin: 1.75rem 0 1rem 0;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px dashed #CBD5E1;
+    }
+
+    .form-group-item {
+      margin-bottom: 1.35rem;
+    }
+
+    .form-group-item label {
+      display: block;
+      font-size: 0.925rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.45rem;
+    }
+
+    .form-group-item label .required {
+      color: #EF4444;
+      margin-left: 0.15rem;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .input-custom,
+    select.input-custom {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: #0F172A;
+      background-color: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    select.input-custom {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2064748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1.1em;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+
+    .input-custom[readonly] {
+      background-color: #F8FAFC;
+      color: #64748B;
+    }
+
+    .input-custom::placeholder {
+      color: #94A3B8;
+    }
+
+    .input-custom:focus,
+    select.input-custom:focus {
+      border-color: #6366F1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    /* Signature Box */
+    .signature-section {
+      background: #FAFBFD;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .signature-section h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1E293B;
+      margin: 0 0 0.75rem 0;
+    }
+
+    .signature-box {
+      border: 1.5px dashed #CBD5E1;
+      border-radius: 12px;
+      background: #FFFFFF;
+      position: relative;
+      overflow: hidden;
+      height: 160px;
+    }
+
+    canvas.signature-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    .signature-buttons {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0.5rem;
+    }
+
+    .btn-clear-sig {
+      background: none;
+      border: none;
+      color: #EF4444;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-clear-sig:hover {
+      background: #FEE2E2;
+      color: #DC2626;
+    }
+
+    /* Action Buttons */
+    .form-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .btn-action-primary {
+      padding: 0.9rem 1.25rem;
+      background: #635BFF;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font-heading);
+      font-size: 0.975rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(99, 91, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-action-primary:hover {
+      background: #4F46E5;
+      transform: translateY(-1px);
+    }
+
+    .btn-action-primary:disabled {
+      background: #9CA3AF;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .btn-action-secondary {
+      padding: 0.9rem 1.25rem;
+      background: #FFFFFF;
+      color: #334155;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 12px;
+      font-family: var(--font-heading);
+      font-size: 0.975rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-action-secondary:hover {
+      background: #F8FAFC;
+      border-color: #94A3B8;
+      color: #0F172A;
+    }
+
+    /* Banners */
+    .message-banner {
+      display: none;
+      padding: 0.9rem 1.1rem;
+      border-radius: 12px;
+      margin-bottom: 1.25rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .message-success {
+      background: #DCFCE7;
+      color: #166534;
+      border: 1px solid #BBF7D0;
+    }
+
+    .message-error {
+      background: #FEE2E2;
+      color: #991B1B;
+      border: 1px solid #FECACA;
+    }
+
+    @media (max-width: 576px) {
+      .card-body {
+        padding: 1.75rem 1.25rem;
+      }
+
+      .banner-title {
+        font-size: 1.4rem;
+      }
+
+      .form-row-2,
+      .form-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="container navbar-inner">
-      <a href="../index.html" class="brand-logo">
-        <div class="brand-icon">
-          <i class="fa-solid fa-award"></i>
-        </div>
-        <div class="brand-text">
-          <h1>KONSENSUS KKNI</h1>
-          <span>Kerangka Kualifikasi Nasional Indonesia</span>
-        </div>
-      </a>
-      <a href="../index.html" class="btn btn-secondary btn-sm">
-        <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda
-      </a>
-    </div>
-  </nav>
+  <!-- Top back navigation -->
+  <div class="top-nav">
+    <a href="../index.html" class="btn-back">
+      <i class="fa-solid fa-arrow-left"></i> Kembali
+    </a>
+  </div>
 
-  <!-- Page Header -->
-  <header class="form-page-header">
-    <div class="container">
-      <div class="breadcrumb">
-        <a href="../index.html"><i class="fa-solid fa-house"></i> Beranda</a>
-        <i class="fa-solid fa-chevron-right"></i>
-        <span>Form Rekapitulasi Keterwakilan</span>
+  <main class="card-konfirmasi">
+
+    <!-- Card Header -->
+    <div class="card-header">
+      <span class="header-icon">📋</span>
+      <h1 class="card-title">Formulir Keterwakilan Peserta</h1>
+      <p class="card-subtitle">Konsensus KKNI</p>
+    </div>
+
+    <!-- Message Banners -->
+    <div id="successMessage" class="message-banner message-success">
+      ✅ Formulir keterwakilan berhasil dikirim!
+    </div>
+    <div id="errorMessage" class="message-banner message-error">
+      ❌ Terjadi kesalahan pengiriman. Silakan coba lagi.
+    </div>
+
+    <!-- Form -->
+    <form id="formData14" novalidate>
+
+      <div class="form-title-box">
+        FORMULIR KETERWAKILAN SEBAGAI PESERTA<br>
+        KONSENSUS KKNI
       </div>
-      <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Form Perhitungan Keterwakilan Stakeholder</h1>
-      <p style="color: var(--slate-300); font-size: 0.95rem;">Formulir verifikasi keterwakilan 5 pemangku kepentingan guna menjamin legalitas & kuorum konsensus KKNI.</p>
-    </div>
-  </header>
 
-  <main class="container container-sm">
-    <div class="form-box">
-      <form id="formKeterwakilan" novalidate>
-        
-        <!-- Live Quorum Dashboard Header -->
-        <div style="background: linear-gradient(135deg, var(--slate-900), var(--primary-900)); color: var(--white); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.1);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-            <div>
-              <h3 style="font-size: 1.15rem; color: var(--white); font-weight: 700;"><i class="fa-solid fa-calculator text-warning me-2"></i> Kalkulator Kuorum Konsensus</h3>
-              <p style="font-size: 0.8rem; color: var(--slate-300);">Minimum keterwakilan: 5 Unsur & Kuorum min. 70% Total Kehadiran</p>
-            </div>
-            <div id="statusKuorumBadge" class="badge badge-success" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
-              <i class="fa-solid fa-circle-check"></i> KUORUM TERPENUHI
-            </div>
-          </div>
+      <!-- Bidang -->
+      <div class="form-group-item">
+        <label for="bidang14">Bidang <span class="required">*</span></label>
+        <select id="bidang14" name="bidang" class="input-custom" required>
+          <option value="" disabled selected>Pilih Bidang...</option>
+          <option value="Pengawasan/Audit Intern">Pengawasan/Audit Intern</option>
+          <option value="Manajemen Risiko Sektor Publik">Manajemen Risiko Sektor Publik</option>
+        </select>
+      </div>
 
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
-            <div style="background: rgba(255,255,255,0.07); padding: 0.85rem; border-radius: 10px;">
-              <div style="font-size: 1.6rem; font-weight: 800; color: var(--accent-gold);" id="totalHitungPeserta">128</div>
-              <div style="font-size: 0.75rem; color: var(--slate-300);">Total Pesensus</div>
-            </div>
-            <div style="background: rgba(255,255,255,0.07); padding: 0.85rem; border-radius: 10px;">
-              <div style="font-size: 1.6rem; font-weight: 800; color: var(--success);" id="unsurLengkapCount">5 / 5</div>
-              <div style="font-size: 0.75rem; color: var(--slate-300);">Unsur Terwakili</div>
-            </div>
-            <div style="background: rgba(255,255,255,0.07); padding: 0.85rem; border-radius: 10px;">
-              <div style="font-size: 1.6rem; font-weight: 800; color: #3B82F6;" id="persenKuorumVal">84.5%</div>
-              <div style="font-size: 0.75rem; color: var(--slate-300);">Persentase Kuorum</div>
-            </div>
-          </div>
+      <!-- Section 1: Yang Bertanda Tangan (Yang Mewakili) -->
+      <div class="section-title">Yang bertanda tangan dibawah ini (Yang Mewakili):</div>
+
+      <div class="form-group-item">
+        <label for="namaPerwakilan">Nama <span class="required">*</span></label>
+        <input type="text" id="namaPerwakilan" name="namaPerwakilan" class="input-custom"
+          placeholder="Masukkan nama lengkap" required>
+      </div>
+
+      <div class="form-group-item">
+        <label for="unitKerjaPerwakilan">Unit Kerja <span class="required">*</span></label>
+        <input type="text" id="unitKerjaPerwakilan" name="unitKerjaPerwakilan" class="input-custom"
+          placeholder="Masukkan unit kerja / instansi" required>
+      </div>
+
+      <div class="form-group-item">
+        <label for="telpPerwakilan">No. Telp/HP <span class="required">*</span></label>
+        <input type="tel" id="telpPerwakilan" name="telpPerwakilan" class="input-custom"
+          placeholder="Contoh: 08123456789" required>
+      </div>
+
+      <!-- Section 2: Dengan ini mewakili kepesertaan saya kepada (Yang Diwakili) -->
+      <div class="section-title">Dengan ini mewakili kepesertaan saya kepada (Yang Diwakili):</div>
+
+      <div class="form-group-item">
+        <label for="namaDiwakili">Nama <span class="required">*</span></label>
+        <input type="text" id="namaDiwakili" name="namaDiwakili" class="input-custom"
+          placeholder="Masukkan nama lengkap" required>
+      </div>
+
+      <div class="form-group-item">
+        <label for="unitKerjaDiwakili">Unit Kerja <span class="required">*</span></label>
+        <input type="text" id="unitKerjaDiwakili" name="unitKerjaDiwakili" class="input-custom"
+          placeholder="Masukkan unit kerja / instansi" required>
+      </div>
+
+      <div class="form-group-item">
+        <label for="telpDiwakili">No. Telp/HP <span class="required">*</span></label>
+        <input type="tel" id="telpDiwakili" name="telpDiwakili" class="input-custom" placeholder="Contoh: 08123456789"
+          required>
+      </div>
+
+      <!-- Jenis Kegiatan -->
+      <div class="form-group-item">
+        <label for="jenisKegiatan14">Jenis Kegiatan <span class="required">*</span></label>
+        <select id="jenisKegiatan14" name="jenisKegiatan" class="input-custom" required>
+          <option value="Konsensus" selected>Konsensus</option>
+        </select>
+      </div>
+
+      <!-- Section 3: Disampaikan kepada Sekretariat Panitia Konsensus -->
+      <div class="section-title">Disampaikan kepada Sekretariat Panitia Konsensus</div>
+
+      <div class="form-group-item">
+        <label for="sekretaris14">Up. Sdr. <span class="required">*</span></label>
+        <input type="text" id="sekretaris14" name="sekretaris" class="input-custom" readonly value="Eko Mardiono">
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group-item">
+          <label for="telpSekretariat14">Telp. Sekretariat <span class="required">*</span></label>
+          <input type="tel" id="telpSekretariat14" name="telpSekretariat" class="input-custom" readonly
+            value="082169092497">
         </div>
 
-        <!-- Input Data Verifikator -->
-        <div class="form-section-title">
-          <i class="fa-solid fa-user-shield"></i> Data Verifikator Panitia Konsensus
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="namaVerifikator">Nama Petugas Verifikator <span class="required">*</span></label>
-            <input type="text" id="namaVerifikator" class="form-control" placeholder="Contoh: Hendra Gunawan, S.E. (Sekretariat)" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="tglRekap">Tanggal & Sesi Pleno <span class="required">*</span></label>
-            <input type="text" id="tglRekap" class="form-control" value="10 Sep 2026 — Pleno Penetapan Kuorum" readonly required>
-          </div>
-        </div>
-
-        <!-- Form Inputs 5 Unsur -->
-        <div class="form-section-title" style="margin-top: 1.75rem;">
-          <i class="fa-solid fa-list-ol"></i> Input Jumlah Peserta Per Unsur Stakeholder
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="cntIndustri">1. Unsur Industri / Dunia Usaha (DUDI) <span class="required">*</span></label>
-          <input type="number" id="cntIndustri" class="form-control input-calc" min="0" value="42" required>
-          <div class="form-hint">Jumlah perwakilan dari Perusahaan, BUMN, Industri Swasta.</div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="cntAkademisi">2. Unsur Akademisi / Lembaga Diklat (LDP) <span class="required">*</span></label>
-          <input type="number" id="cntAkademisi" class="form-control input-calc" min="0" value="30" required>
-          <div class="form-hint">Jumlah perwakilan Perguruan Tinggi, Poltek, LPK, SMK.</div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="cntAsosiasi">3. Unsur Asosiasi Profesi & Industri <span class="required">*</span></label>
-          <input type="number" id="cntAsosiasi" class="form-control input-calc" min="0" value="25" required>
-          <div class="form-hint">Jumlah perwakilan Organisasi Profesi dan Kamar Dagang.</div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="cntPakar">4. Unsur Pakar / Praktisi / Asesor Competency <span class="required">*</span></label>
-          <input type="number" id="cntPakar" class="form-control input-calc" min="0" value="18" required>
-          <div class="form-hint">Jumlah pakar independen dan asesor kompetensi.</div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="cntPemerintah">5. Unsur Instansi Pemerintah / Kementerian Teknis <span class="required">*</span></label>
-          <input type="number" id="cntPemerintah" class="form-control input-calc" min="0" value="13" required>
-          <div class="form-hint">Jumlah pembina sektor kementerian/lembaga.</div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="catatanVerifikasi">Catatan / Kesimpulan Verifikasi Kuorum</label>
-          <textarea id="catatanVerifikasi" class="form-control" placeholder="Tuliskan catatan verifikasi kuorum untuk dilaporkan pada Sidang Pleno..."></textarea>
-        </div>
-
-        <div style="margin-top: 2rem;">
-          <button type="submit" class="btn btn-primary btn-lg btn-block">
-            <i class="fa-solid fa-file-export"></i> Simpan & Sahkan Rekapitulasi Keterwakilan
-          </button>
-        </div>
-
-      </form>
-
-      <!-- Success State -->
-      <div id="suksesRekapBox" style="display: none; text-align: center; padding: 2rem 1rem;">
-        <div style="width: 70px; height: 70px; background: #F3E8FF; color: #9333EA; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.5rem auto;">
-          <i class="fa-solid fa-chart-pie"></i>
-        </div>
-        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.5rem;">Rekapitulasi Berhasil Disahkan!</h2>
-        <p style="color: var(--slate-600); margin-bottom: 1.5rem;">Berita acara perhitungan kuorum keterwakilan stakeholder telah diterbitkan secara sah.</p>
-
-        <div style="background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 1.25rem; max-width: 450px; margin: 0 auto 2rem auto; text-align: left;">
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
-            <span style="color: var(--slate-500);">ID Berita Acara:</span>
-            <strong style="color: var(--slate-900);" id="rekapID">BA-KTR-9281</strong>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
-            <span style="color: var(--slate-500);">Total Pesensus:</span>
-            <span style="font-weight: 700; color: var(--primary-700);" id="rekapTotal">128 Peserta</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
-            <span style="color: var(--slate-500);">Status Legalitas:</span>
-            <span class="badge badge-success" id="rekapStatus">KUORUM SAH (5/5 Unsur)</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
-            <span style="color: var(--slate-500);">Verifikator:</span>
-            <span id="rekapPetugas">-</span>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 1rem; justify-content: center;">
-          <a href="../index.html" class="btn btn-primary">
-            <i class="fa-solid fa-house"></i> Beranda
-          </a>
-          <button type="button" onclick="location.reload();" class="btn btn-secondary">
-            <i class="fa-solid fa-arrows-rotate"></i> Hitung Ulang
-          </button>
+        <div class="form-group-item">
+          <label for="fax14">Fax. Sekretariat</label>
+          <input type="tel" id="fax14" name="fax" class="input-custom" readonly value="-">
         </div>
       </div>
 
+      <div class="form-row-2">
+        <div class="form-group-item">
+          <label for="kota14">Kabupaten/Kota <span class="required">*</span></label>
+          <input type="text" id="kota14" name="kota" class="input-custom" value="Bogor" required>
+        </div>
+
+        <div class="form-group-item">
+          <label for="tanggal14">Tanggal <span class="required">*</span></label>
+          <input type="date" id="tanggal14" name="tanggal" class="input-custom" value="2026-09-22" required>
+        </div>
+      </div>
+
+      <!-- Signature 1: Yang Diwakili -->
+      <div class="signature-section">
+        <h3>Tanda Tangan Yang Diwakili <span class="required" style="color: #EF4444;">*</span></h3>
+        <div class="signature-box">
+          <canvas id="signature14-1" class="signature-canvas" width="650" height="160"></canvas>
+        </div>
+        <div class="signature-buttons">
+          <button type="button" class="btn-clear-sig" id="btnClearSig1">🗑️ Hapus Tanda Tangan</button>
+        </div>
+      </div>
+
+      <!-- Signature 2: Yang Mewakili -->
+      <div class="signature-section">
+        <h3>Tanda Tangan Yang Mewakili <span class="required" style="color: #EF4444;">*</span></h3>
+        <div class="signature-box">
+          <canvas id="signature14-2" class="signature-canvas" width="650" height="160"></canvas>
+        </div>
+        <div class="signature-buttons">
+          <button type="button" class="btn-clear-sig" id="btnClearSig2">🗑️ Hapus Tanda Tangan</button>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-action-secondary" id="btnDownloadPdf">
+          📄 Download PDF
+        </button>
+        <button type="submit" class="btn-action-primary" id="submitBtn14">
+          📤 Kirim Formulir
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Success View Card -->
+    <div id="suksesBox" style="display: none; text-align: center; padding: 1.5rem 0;">
+      <div
+        style="width: 64px; height: 64px; background: #EEF2FF; color: #635BFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem auto;">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <h3 style="font-size: 1.4rem; font-weight: 800; color: #1E293B; margin-bottom: 0.35rem;">Formulir Berhasil
+        Dikirim!</h3>
+      <p style="color: #64748B; font-size: 0.9rem; margin-bottom: 1.5rem;">Terima kasih. Data Formulir 14 Keterwakilan
+        Peserta telah tersimpan di sistem.</p>
+
+      <div
+        style="background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.75rem; text-align: left;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem;">
+          <span style="color: #64748B;">Yang Mewakili:</span>
+          <strong style="color: #1E293B;" id="refMewakili">-</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem;">
+          <span style="color: #64748B;">Yang Diwakili:</span>
+          <strong style="color: #4F46E5;" id="refDiwakili">-</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+          <span style="color: #64748B;">Bidang:</span>
+          <span style="font-weight: 600; color: #10B981;" id="refBidang">-</span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; justify-content: center;">
+        <a href="../index.html" class="btn-action-primary"
+          style="display: inline-block; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.9rem; margin-top: 0; width: auto;">
+          <i class="fa-solid fa-house"></i> Kembali ke Beranda
+        </a>
+        <button type="button" onclick="location.reload();" class="btn-action-secondary"
+          style="padding: 0.75rem 1.25rem; font-size: 0.9rem;">
+          <i class="fa-solid fa-rotate-right"></i> Isi Formulir Lain
+      </div>
     </div>
+
   </main>
 
   <div class="toast-container" id="toastWrap"></div>
 
-  <script src="../js/keterwakilan.js"></script>
+  <script src="../js/keterwakilan.js?v=4.0"></script>
 </body>
+
 </html>
