@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konsensus KKNI - Pengisian Formulir</title>
+    <title>Konsensus KKNI - Pengisian Formulir & Materi</title>
     <meta name="description"
-        content="Portal Pengisian Formulir Konsensus Kerangka Kualifikasi Nasional Indonesia (KKNI)">
+        content="Portal Pengisian Formulir & Akses Materi Konsensus Kerangka Kualifikasi Nasional Indonesia (KKNI)">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Main Design System CSS -->
     <link rel="stylesheet" href="css/app.css">
     <style>
-        /* Clean layout styling specifically for simple index page */
+        /* Clean layout styling specifically for index page */
         body {
             background: linear-gradient(135deg, #0F172A 0%, #0F2C59 50%, #1E3E62 100%);
             min-height: 100vh;
@@ -31,8 +31,8 @@
 
         .portal-container {
             width: 100%;
-            max-width: 860px;
-            background: rgba(255, 255, 255, 0.96);
+            max-width: 880px;
+            background: rgba(255, 255, 255, 0.97);
             backdrop-filter: blur(16px);
             border-radius: var(--radius-xl);
             padding: 3rem 2.5rem;
@@ -42,7 +42,7 @@
 
         .portal-header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2.25rem;
             border-bottom: 2px solid var(--slate-100);
             padding-bottom: 1.75rem;
         }
@@ -74,10 +74,107 @@
             color: var(--slate-600);
         }
 
+        /* Google Drive Materials Embedded Section */
+        .drive-materials-card {
+            background: #F8FAFC;
+            border: 1.5px solid #E2E8F0;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2.25rem;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+            transition: all 0.25s ease;
+        }
+
+        .drive-materials-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.1rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .drive-materials-title {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .drive-materials-title i {
+            font-size: 1.4rem;
+            color: #0284C7;
+            background: #E0F2FE;
+            padding: 0.65rem;
+            border-radius: 12px;
+        }
+
+        .drive-materials-title h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #0F172A;
+            margin-bottom: 0.15rem;
+        }
+
+        .drive-materials-title p {
+            font-size: 0.875rem;
+            color: #64748B;
+        }
+
+        .btn-open-drive {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0284C7;
+            background: #FFFFFF;
+            border: 1px solid #BAE6FD;
+            padding: 0.55rem 1rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-open-drive:hover {
+            background: #0284C7;
+            color: #FFFFFF;
+            border-color: #0284C7;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+        }
+
+        .drive-embed-frame {
+            width: 100%;
+            height: 190px;
+            border: 1px solid #CBD5E1;
+            border-radius: 14px;
+            background: #FFFFFF;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+        }
+
+        .drive-embed-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Form Buttons List */
+        .section-label {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #1E293B;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
         .form-buttons-list {
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
+            gap: 1.15rem;
         }
 
         .btn-form-item {
@@ -176,6 +273,10 @@
                 height: 44px;
                 font-size: 1.2rem;
             }
+
+            .drive-embed-frame {
+                height: 180px;
+            }
         }
     </style>
 </head>
@@ -192,8 +293,32 @@
                 </div>
                 <h1 class="portal-title">Konsensus KKNI Bidang Pengawasan/Audit Intern dan Manajemen Risiko Sektor
                     Publik</h1>
-                <p class="portal-subtitle">Silakan pilih formulir di bawah ini untuk memulai pengisian data resmi
-                    konsensus:</p>
+                <p class="portal-subtitle">Silakan pelajari materi konsensus dan pilih formulir di bawah untuk memulai
+                    pengisian:</p>
+            </div>
+
+            <!-- Google Drive Materials Embedded Section -->
+            <div class="drive-materials-card">
+                <div class="drive-materials-header">
+                    <div class="drive-materials-title">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <div>
+                            <h3>Materi & Dokumen Konsensus KKNI</h3>
+                        </div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1IHWJoWgpqIAoAarEQ5Mwdn9c5_HCIINY?usp=sharing"
+                        target="_blank" rel="noopener noreferrer" class="btn-open-drive">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Folder Drive
+                    </a>
+                </div>
+                <div class="drive-embed-frame">
+                    <iframe src="https://drive.google.com/embeddedfolderview?id=1IHWJoWgpqIAoAarEQ5Mwdn9c5_HCIINY#list"
+                        title="Materi Konsensus KKNI Google Drive"></iframe>
+                </div>
+            </div>
+
+            <div class="section-label">
+                <i class="fa-solid fa-file-pen" style="color: var(--primary-600);"></i> Pengisian Formulir Konsensus:
             </div>
 
             <!-- Form Buttons List -->
