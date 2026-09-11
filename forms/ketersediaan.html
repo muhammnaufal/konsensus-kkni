@@ -1,191 +1,516 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form Surat Ketersediaan Berkontribusi - Konsensus KKNI</title>
+  <title>Formulir Kesediaan Peserta - Konsensus KKNI</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../css/app.css">
+
+  <!-- jsPDF Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    body {
+      background: #EBF1F6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      font-family: var(--font-body);
+      color: #334155;
+    }
+
+    .top-nav {
+      position: absolute;
+      top: 1.25rem;
+      left: 1.5rem;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #64748B;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background: #FFFFFF;
+      border-radius: 9999px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      transition: all 0.2s ease;
+    }
+
+    .btn-back:hover {
+      color: #1E293B;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-konfirmasi {
+      width: 100%;
+      max-width: 760px;
+      background: #FFFFFF;
+      border-radius: 24px;
+      padding: 3rem 3.5rem;
+      box-shadow: 0 20px 45px -5px rgba(0, 0, 0, 0.08), 0 8px 20px -4px rgba(0, 0, 0, 0.04);
+      margin: 2rem auto;
+      box-sizing: border-box;
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 2.25rem;
+    }
+
+    .header-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1E293B;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.02em;
+    }
+
+    .card-subtitle {
+      font-size: 1rem;
+      color: #64748B;
+    }
+
+    .form-title-box {
+      background: #F1F5F9;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      text-align: center;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #1E293B;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #4F46E5;
+      margin: 1.75rem 0 1rem 0;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px dashed #CBD5E1;
+    }
+
+    .form-group-item {
+      margin-bottom: 1.35rem;
+    }
+
+    .form-group-item label {
+      display: block;
+      font-size: 0.925rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.45rem;
+    }
+
+    .form-group-item label .required {
+      color: #EF4444;
+      margin-left: 0.15rem;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .input-custom,
+    select.input-custom {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: #0F172A;
+      background-color: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    select.input-custom {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2064748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1.1em;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+
+    .input-custom[readonly] {
+      background-color: #F8FAFC;
+      color: #64748B;
+    }
+
+    .input-custom::placeholder {
+      color: #94A3B8;
+    }
+
+    .input-custom:focus,
+    select.input-custom:focus {
+      border-color: #6366F1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    /* Signature Box */
+    .signature-section {
+      background: #FAFBFD;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .signature-section h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1E293B;
+      margin: 0 0 0.75rem 0;
+    }
+
+    .signature-box {
+      border: 1.5px dashed #CBD5E1;
+      border-radius: 12px;
+      background: #FFFFFF;
+      position: relative;
+      overflow: hidden;
+      height: 160px;
+    }
+
+    canvas.signature-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    .signature-buttons {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0.5rem;
+    }
+
+    .btn-clear-sig {
+      background: none;
+      border: none;
+      color: #EF4444;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-clear-sig:hover {
+      background: #FEE2E2;
+      color: #DC2626;
+    }
+
+    /* Action Buttons */
+    .form-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .btn-action-primary {
+      padding: 0.9rem 1.25rem;
+      background: #635BFF;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font-heading);
+      font-size: 0.975rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(99, 91, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-action-primary:hover {
+      background: #4F46E5;
+      transform: translateY(-1px);
+    }
+
+    .btn-action-primary:disabled {
+      background: #9CA3AF;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .btn-action-secondary {
+      padding: 0.9rem 1.25rem;
+      background: #FFFFFF;
+      color: #334155;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 12px;
+      font-family: var(--font-heading);
+      font-size: 0.975rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-action-secondary:hover {
+      background: #F8FAFC;
+      border-color: #94A3B8;
+      color: #0F172A;
+    }
+
+    /* Banners */
+    .message-banner {
+      display: none;
+      padding: 0.9rem 1.1rem;
+      border-radius: 12px;
+      margin-bottom: 1.25rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .message-success {
+      background: #DCFCE7;
+      color: #166534;
+      border: 1px solid #BBF7D0;
+    }
+
+    .message-error {
+      background: #FEE2E2;
+      color: #991B1B;
+      border: 1px solid #FECACA;
+    }
+
+    @media (max-width: 576px) {
+      .card-konfirmasi {
+        padding: 2rem 1.5rem;
+      }
+
+      .form-row-2,
+      .form-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="container navbar-inner">
-      <a href="../index.html" class="brand-logo">
-        <div class="brand-icon">
-          <i class="fa-solid fa-award"></i>
-        </div>
-        <div class="brand-text">
-          <h1>KONSENSUS KKNI</h1>
-          <span>Kerangka Kualifikasi Nasional Indonesia</span>
-        </div>
-      </a>
-      <a href="../index.html" class="btn btn-secondary btn-sm">
-        <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda
-      </a>
-    </div>
-  </nav>
+  <!-- Top back navigation -->
+  <div class="top-nav">
+    <a href="../index.html" class="btn-back">
+      <i class="fa-solid fa-arrow-left"></i> Kembali
+    </a>
+  </div>
 
-  <!-- Page Header -->
-  <header class="form-page-header">
-    <div class="container">
-      <div class="breadcrumb">
-        <a href="../index.html"><i class="fa-solid fa-house"></i> Beranda</a>
-        <i class="fa-solid fa-chevron-right"></i>
-        <span>Form Surat Ketersediaan Berkontribusi</span>
+  <main class="card-konfirmasi">
+
+    <!-- Card Header -->
+    <div class="card-header">
+      <span class="header-icon">📋</span>
+      <h1 class="card-title">Formulir Kesediaan Peserta</h1>
+      <p class="card-subtitle">Konsensus KKNI</p>
+    </div>
+
+    <!-- Message Banners -->
+    <div id="successMessage" class="message-banner message-success">
+      ✅ Formulir kesediaan berhasil dikirim!
+    </div>
+    <div id="errorMessage" class="message-banner message-error">
+      ❌ Terjadi kesalahan pengiriman. Silakan coba lagi.
+    </div>
+
+    <!-- Form -->
+    <form id="formData13" novalidate>
+
+      <div class="form-title-box">
+        FORMULIR KESEDIAAN SEBAGAI PESERTA<br>
+        KONSENSUS KKNI
       </div>
-      <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Surat Ketersediaan Tim Perumus / Verifikator</h1>
-      <p style="color: var(--slate-300); font-size: 0.95rem;">Formulir komitmen kesediaan pakar & praktisi dalam pengembangan dan verifikasi dokumen RSKKNI pasca-konsensus.</p>
-    </div>
-  </header>
 
-  <main class="container container-sm">
-    <div class="form-box">
-      <form id="formKetersediaan" novalidate>
-        
-        <!-- Section 1 -->
-        <div class="form-section-title">
-          <i class="fa-solid fa-user-gear"></i> Data Diri & Kepakaran Tim
+      <!-- Bidang -->
+      <div class="form-group-item">
+        <label for="bidang13">Bidang <span class="required">*</span></label>
+        <select id="bidang13" name="bidang" class="input-custom" required>
+          <option value="" disabled selected>Pilih Bidang...</option>
+          <option value="Pengawasan/Audit Intern">Pengawasan/Audit Intern</option>
+          <option value="Manajemen Risiko Sektor Publik">Manajemen Risiko Sektor Publik</option>
+        </select>
+      </div>
+
+      <!-- Section Title -->
+      <div class="section-title">Yang bertanda tangan dibawah ini saya:</div>
+
+      <div class="form-group-item">
+        <label for="nama13">Nama <span class="required">*</span></label>
+        <input type="text" id="nama13" name="nama" class="input-custom" placeholder="Masukkan nama lengkap" required>
+      </div>
+
+      <div class="form-group-item">
+        <label for="unitKerja13">Unit Kerja <span class="required">*</span></label>
+        <input type="text" id="unitKerja13" name="unitKerja" class="input-custom"
+          placeholder="Masukkan unit kerja / instansi" required>
+      </div>
+
+      <div class="form-group-item">
+        <label for="telp13">No. Telp/HP <span class="required">*</span></label>
+        <input type="tel" id="telp13" name="telp" class="input-custom" placeholder="Contoh: 08123456789" required>
+      </div>
+
+      <div class="form-group-item">
+        <label for="kesediaan13">Pernyataan Kesediaan <span class="required">*</span></label>
+        <select id="kesediaan13" name="kesediaan" class="input-custom" required>
+          <option value="" disabled selected>Pilih Kesediaan...</option>
+          <option value="Bersedia">Bersedia</option>
+          <option value="Tidak Bersedia">Tidak Bersedia</option>
+        </select>
+      </div>
+
+      <div class="form-group-item">
+        <label for="jenisKegiatan13">Jenis Kegiatan <span class="required">*</span></label>
+        <select id="jenisKegiatan13" name="jenisKegiatan" class="input-custom" required>
+          <option value="Konsensus" selected>Konsensus</option>
+          <option value="Konvensi">Konvensi</option>
+        </select>
+      </div>
+
+      <!-- Section Title Sekretariat -->
+      <div class="section-title">Disampaikan kepada Sekretariat Panitia Konsensus</div>
+
+      <div class="form-group-item">
+        <label for="sekretaris13">Up. Sdr. <span class="required">*</span></label>
+        <input type="text" id="sekretaris13" name="sekretaris" class="input-custom" readonly value="Eko Mardiono">
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group-item">
+          <label for="telpSekretariat13">Telp. Sekretariat <span class="required">*</span></label>
+          <input type="tel" id="telpSekretariat13" name="telpSekretariat" class="input-custom" readonly
+            value="082169092497">
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="namaPerumus">Nama Lengkap & Gelar <span class="required">*</span></label>
-            <input type="text" id="namaPerumus" class="form-control" placeholder="Contoh: Dr. Eng. Heri Prasetyo" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="nipPerumus">NIP / NIK / No. KTP <span class="required">*</span></label>
-            <input type="text" id="nipPerumus" class="form-control" placeholder="Contoh: 3273019283740002" required>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="instansiPerumus">Instansi / Perusahaan <span class="required">*</span></label>
-            <input type="text" id="instansiPerumus" class="form-control" placeholder="Contoh: PT. Telekomunikasi Indonesia" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="bidangKeahlian">Bidang Keahlian / Sub-Sektor KKNI <span class="required">*</span></label>
-            <input type="text" id="bidangKeahlian" class="form-control" placeholder="Contoh: Cyber Security & Cloud Infrastructure" required>
-          </div>
-        </div>
-
-        <!-- Section 2: Pilihan Peran & Kesediaan -->
-        <div class="form-section-title" style="margin-top: 1.75rem;">
-          <i class="fa-solid fa-handshake font-bold"></i> Pilihan Peran & Pernyataan Kesediaan
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Komitmen Kesediaan Berkontribusi <span class="required">*</span></label>
-          <div class="option-cards-grid">
-            <label class="option-card-label">
-              <input type="radio" name="peran" value="Anggota Tim Perumus RSKKNI" checked required>
-              <div class="option-border"></div>
-              <div class="option-content">
-                <div class="option-title"><i class="fa-solid fa-pen-nib me-1 text-primary"></i> Tim Perumus</div>
-                <div class="option-desc">Menyusun & menyempurnakan draft RSKKNI</div>
-              </div>
-            </label>
-
-            <label class="option-card-label">
-              <input type="radio" name="peran" value="Tim Verifikator Skema & Dokumen KKNI">
-              <div class="option-border"></div>
-              <div class="option-content">
-                <div class="option-title"><i class="fa-solid fa-clipboard-check me-1 text-success"></i> Tim Verifikator</div>
-                <div class="option-desc">Memverifikasi keselarasan kualifikasi & asesmen</div>
-              </div>
-            </label>
-
-            <label class="option-card-label">
-              <input type="radio" name="peran" value="Komite Pengembang Skema KKNI">
-              <div class="option-border"></div>
-              <div class="option-content">
-                <div class="option-title"><i class="fa-solid fa-sitemap me-1 text-info"></i> Komite Skema</div>
-                <div class="option-desc">Membina pengemasan skema kualifikasi</div>
-              </div>
-            </label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="fileUpload">Lampiran File CV / Sertifikat Kompetensi (Opsional)</label>
-          <input type="file" id="fileUpload" class="form-control" accept=".pdf,.doc,.docx,.jpg,.png">
-          <div class="form-hint">Format diterima: PDF, DOCX, JPG/PNG (Maks 5 MB).</div>
-        </div>
-
-        <!-- Section 3: Pernyataan Integritas & Ttd -->
-        <div class="form-section-title" style="margin-top: 1.75rem;">
-          <i class="fa-solid fa-file-contract"></i> Pernyataan Integritas & Tanda Tangan
-        </div>
-
-        <div style="background: var(--slate-100); border: 1px solid var(--slate-200); padding: 1rem; border-radius: 8px; font-size: 0.85rem; color: var(--slate-700); margin-bottom: 1.25rem; line-height: 1.6;">
-          <i class="fa-solid fa-quote-left text-primary me-1"></i>
-          Dengan mengisi formulir ini, saya menyatakan bersedia dan berkomitmen memberikan sumbangsih pemikiran, keahlian, dan waktu secara aktif dalam pengembangan Kerangka Kualifikasi Nasional Indonesia (KKNI) demi terwujudnya standar kualifikasi tenaga kerja Indonesia yang berdaya saing global.
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Tanda Tangan Pernyataan Kesediaan <span class="required">*</span></label>
-          <div class="signature-wrap">
-            <canvas id="sigKetersediaanCanvas" width="480" height="180"></canvas>
-            <div class="signature-actions">
-              <button type="button" id="btnClearSigPerumus" class="btn btn-secondary btn-sm">
-                <i class="fa-solid fa-eraser"></i> Hapus Tanda Tangan
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-top: 2rem;">
-          <button type="submit" class="btn btn-primary btn-lg btn-block">
-            <i class="fa-solid fa-paper-plane"></i> Kirim Surat Ketersediaan
-          </button>
-        </div>
-
-      </form>
-
-      <!-- Success State -->
-      <div id="suksesKetersediaanBox" style="display: none; text-align: center; padding: 2rem 1rem;">
-        <div style="width: 70px; height: 70px; background: #CFFAFE; color: var(--info); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.5rem auto;">
-          <i class="fa-solid fa-award"></i>
-        </div>
-        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.5rem;">Komitmen Berhasil Terdaftar!</h2>
-        <p style="color: var(--slate-600); margin-bottom: 1.5rem;">Terima kasih atas dedikasi dan kesediaan Anda berkontribusi bagi kemajuan KKNI Indonesia.</p>
-
-        <div style="background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 1.25rem; max-width: 450px; margin: 0 auto 2rem auto; text-align: left;">
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
-            <span style="color: var(--slate-500);">ID Komitmen:</span>
-            <strong style="color: var(--slate-900);" id="perumusID">KTM-KKNI-9281</strong>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
-            <span style="color: var(--slate-500);">Nama Perumus:</span>
-            <span style="font-weight: 600; color: var(--slate-900);" id="perumusNama">-</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
-            <span style="color: var(--slate-500);">Peran Dipilih:</span>
-            <span class="badge badge-primary" id="perumusPeran">Tim Perumus</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
-            <span style="color: var(--slate-500);">Spesialisasi:</span>
-            <span id="perumusKeahlian">-</span>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 1rem; justify-content: center;">
-          <a href="../index.html" class="btn btn-primary">
-            <i class="fa-solid fa-house"></i> Beranda Utama
-          </a>
-          <button type="button" onclick="location.reload();" class="btn btn-secondary">
-            <i class="fa-solid fa-arrows-rotate"></i> Form Baru
-          </button>
+        <div class="form-group-item">
+          <label for="fax13">Fax. Sekretariat</label>
+          <input type="tel" id="fax13" name="fax" class="input-custom" readonly value="-">
         </div>
       </div>
 
+      <div class="form-row-2">
+        <div class="form-group-item">
+          <label for="kota13">Kabupaten/Kota <span class="required">*</span></label>
+          <input type="text" id="kota13" name="kota" class="input-custom" value="Bogor" required>
+        </div>
+
+        <div class="form-group-item">
+          <label for="tanggal13">Tanggal <span class="required">*</span></label>
+          <input type="date" id="tanggal13" name="tanggal" class="input-custom" value="2026-09-22" required>
+        </div>
+      </div>
+
+      <!-- Signature Section -->
+      <div class="signature-section">
+        <h3>Tanda Tangan <span class="required" style="color: #EF4444;">*</span></h3>
+        <div class="signature-box">
+          <canvas id="signature13" class="signature-canvas" width="650" height="160"></canvas>
+        </div>
+        <div class="signature-buttons">
+          <button type="button" class="btn-clear-sig" id="btnClearSig13">🗑️ Hapus Tanda Tangan</button>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-action-secondary" id="btnDownloadPdf13">
+          📄 Download PDF
+        </button>
+        <button type="submit" class="btn-action-primary" id="submitBtn13">
+          📤 Kirim Formulir
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Success View Card -->
+    <div id="suksesBox" style="display: none; text-align: center; padding: 1.5rem 0;">
+      <div
+        style="width: 64px; height: 64px; background: #EEF2FF; color: #635BFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem auto;">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <h3 style="font-size: 1.4rem; font-weight: 800; color: #1E293B; margin-bottom: 0.35rem;">Formulir Berhasil
+        Dikirim!</h3>
+      <p style="color: #64748B; font-size: 0.9rem; margin-bottom: 1.5rem;">Terima kasih. Data Formulir 13 Kesediaan
+        Peserta telah tersimpan di sistem.</p>
+
+      <div
+        style="background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.75rem; text-align: left;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem;">
+          <span style="color: #64748B;">Nama:</span>
+          <strong style="color: #1E293B;" id="refNama">-</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem;">
+          <span style="color: #64748B;">Unit Kerja:</span>
+          <strong style="color: #4F46E5;" id="refUnitKerja">-</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem;">
+          <span style="color: #64748B;">Kesediaan:</span>
+          <span style="font-weight: 700; color: #10B981;" id="refKesediaan">-</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+          <span style="color: #64748B;">Bidang:</span>
+          <span style="font-weight: 600; color: #6366F1;" id="refBidang">-</span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; justify-content: center;">
+        <a href="../index.html" class="btn-action-primary"
+          style="display: inline-block; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.9rem; margin-top: 0; width: auto;">
+          <i class="fa-solid fa-house"></i> Kembali ke Beranda
+        </a>
+        <button type="button" onclick="location.reload();" class="btn-action-secondary"
+          style="padding: 0.75rem 1.25rem; font-size: 0.9rem;">
+          <i class="fa-solid fa-rotate-right"></i> Isi Formulir Lain
+        </button>
+      </div>
     </div>
+
   </main>
 
   <div class="toast-container" id="toastWrap"></div>
 
-  <script src="../js/ketersediaan.js"></script>
+  <script src="../js/ketersediaan.js?v=4.0"></script>
 </body>
+
 </html>
