@@ -151,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const bidang = document.getElementById('bidang13')?.value || '-';
     const nama = document.getElementById('nama13')?.value.trim() || '-';
+    const jabatan = document.getElementById('jabatan13')?.value.trim() || '-';
     const unitKerja = document.getElementById('unitKerja13')?.value.trim() || '-';
     const telp = document.getElementById('telp13')?.value.trim() || '-';
     const kesediaan = document.getElementById('kesediaan13')?.value || 'Bersedia';
@@ -196,6 +197,11 @@ document.addEventListener('DOMContentLoaded', () => {
     doc.text('Nama', 20, y);
     doc.text(':', 55, y);
     doc.text(nama, 60, y);
+
+    y += 7;
+    doc.text('Jabatan', 20, y);
+    doc.text(':', 55, y);
+    doc.text(jabatan, 60, y);
 
     y += 7;
     doc.text('Unit Kerja', 20, y);
@@ -288,6 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const bidang = document.getElementById('bidang13')?.value;
       const nama = document.getElementById('nama13')?.value.trim();
+      const jabatan = document.getElementById('jabatan13')?.value.trim();
       const unitKerja = document.getElementById('unitKerja13')?.value.trim();
       const telp = document.getElementById('telp13')?.value.trim();
       const kesediaan = document.getElementById('kesediaan13')?.value;
@@ -297,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const kota = document.getElementById('kota13')?.value.trim();
       const tanggal = document.getElementById('tanggal13')?.value;
 
-      if (!bidang || !nama || !unitKerja || !telp || !kesediaan || !jenisKegiatan || !kota || !tanggal) {
+      if (!bidang || !nama || !jabatan || !unitKerja || !telp || !kesediaan || !jenisKegiatan || !kota || !tanggal) {
         showToast('Mohon lengkapi seluruh kolom wajib bertanda (*)', 'error');
         alert('Mohon lengkapi seluruh kolom wajib bertanda (*)');
         return;
@@ -333,6 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
       dataToSend.append('timestamp', currentTime);
       dataToSend.append('bidang', bidang);
       dataToSend.append('nama', nama);
+      dataToSend.append('jabatan', jabatan);
       dataToSend.append('unitKerja', unitKerja);
       dataToSend.append('telp', telp);
       dataToSend.append('kesediaan', kesediaan);
@@ -353,6 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
         id: randomId,
         bidang,
         nama,
+        jabatan,
         unitKerja,
         kesediaan,
         modeHadir,
@@ -370,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(() => {
           if (successMessage) successMessage.style.display = 'block';
           if (errorMessage) errorMessage.style.display = 'none';
-          finishSubmission(nama, unitKerja, kesediaan, bidang, modeHadir);
+          finishSubmission(nama, jabatan, unitKerja, kesediaan, bidang, modeHadir);
         })
         .catch(error => {
           console.error(error);
@@ -385,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function finishSubmission(nama, unitKerja, kesediaan, bidang, modeHadir) {
+  function finishSubmission(nama, jabatan, unitKerja, kesediaan, bidang, modeHadir) {
     if (form) {
       form.reset();
       form.style.display = 'none';
@@ -393,6 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (suksesBox) {
       const refNama = document.getElementById('refNama');
+      const refJabatan = document.getElementById('refJabatan');
       const refUnitKerja = document.getElementById('refUnitKerja');
       const refKesediaan = document.getElementById('refKesediaan');
       const refBidang = document.getElementById('refBidang');
@@ -400,6 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const refModeHadir = document.getElementById('refModeHadir');
 
       if (refNama) refNama.innerText = nama;
+      if (refJabatan) refJabatan.innerText = jabatan;
       if (refUnitKerja) refUnitKerja.innerText = unitKerja;
       if (refKesediaan) refKesediaan.innerText = kesediaan;
       if (refBidang) refBidang.innerText = bidang;
