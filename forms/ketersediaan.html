@@ -173,6 +173,54 @@
       box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
     }
 
+    /* Mode Hadir Option Pills */
+    .mode-options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .mode-pill-label {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.9rem 0.75rem;
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #475569;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .mode-pill-label * {
+      pointer-events: none;
+    }
+
+    .mode-pill-label input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+      pointer-events: none;
+    }
+
+    .mode-pill-label:hover {
+      border-color: #CBD5E1;
+      background: #F1F5F9;
+    }
+
+    .mode-pill-label.active {
+      background: #EEF2FF;
+      border-color: #6366F1;
+      color: #4F46E5;
+    }
+
     /* Signature Box */
     .signature-section {
       background: #FAFBFD;
@@ -399,6 +447,21 @@
         </select>
       </div>
 
+      <!-- Mode Hadir (Hanya tampil jika Kesediaan = Bersedia) -->
+      <div class="form-group-item" id="modeHadirGroup" style="display: none;">
+        <label>Bersedia hadir secara: <span class="required">*</span></label>
+        <div class="mode-options-grid">
+          <label class="mode-pill-label active" id="labelDaring13">
+            <input type="radio" name="modeHadir" value="Daring (Online)" checked>
+            <span>💻 Daring (Online)</span>
+          </label>
+          <label class="mode-pill-label" id="labelLuring13">
+            <input type="radio" name="modeHadir" value="Luring (Offline)">
+            <span>🏢 Luring (Offline)</span>
+          </label>
+        </div>
+      </div>
+
       <div class="form-group-item">
         <label for="jenisKegiatan13">Jenis Kegiatan <span class="required">*</span></label>
         <select id="jenisKegiatan13" name="jenisKegiatan" class="input-custom" required>
@@ -487,6 +550,10 @@
         <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem;">
           <span style="color: #64748B;">Kesediaan:</span>
           <span style="font-weight: 700; color: #10B981;" id="refKesediaan">-</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem; display: none;" id="refModeHadirRow">
+          <span style="color: #64748B;">Hadir Secara:</span>
+          <span style="font-weight: 600; color: #4F46E5;" id="refModeHadir">-</span>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
           <span style="color: #64748B;">Bidang:</span>

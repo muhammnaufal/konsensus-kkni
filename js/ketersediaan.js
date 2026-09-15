@@ -101,6 +101,40 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
+  // Mode Hadir Pills & Conditional Toggle
+  // ==========================================
+  const modeLabels = document.querySelectorAll('.mode-pill-label');
+  modeLabels.forEach(label => {
+    label.addEventListener('click', (e) => {
+      e.preventDefault();
+      modeLabels.forEach(l => l.classList.remove('active'));
+      label.classList.add('active');
+      const radio = label.querySelector('input[type="radio"]');
+      if (radio) {
+        radio.checked = true;
+      }
+    });
+  });
+
+  const kesediaanSelect = document.getElementById('kesediaan13');
+  const modeHadirGroup = document.getElementById('modeHadirGroup');
+
+  function toggleModeHadir() {
+    if (kesediaanSelect && modeHadirGroup) {
+      if (kesediaanSelect.value === 'Bersedia') {
+        modeHadirGroup.style.display = 'block';
+      } else {
+        modeHadirGroup.style.display = 'none';
+      }
+    }
+  }
+
+  if (kesediaanSelect) {
+    kesediaanSelect.addEventListener('change', toggleModeHadir);
+    toggleModeHadir();
+  }
+
+  // ==========================================
   // 2. Generate PDF Dokumen Formulir 13
   // ==========================================
   if (btnDownloadPdf) {
@@ -120,6 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const unitKerja = document.getElementById('unitKerja13')?.value.trim() || '-';
     const telp = document.getElementById('telp13')?.value.trim() || '-';
     const kesediaan = document.getElementById('kesediaan13')?.value || 'Bersedia';
+    const modeRadio = document.querySelector('input[name="modeHadir"]:checked');
+    const modeHadir = modeRadio ? modeRadio.value : 'Daring (Online)';
     const jenisKegiatan = document.getElementById('jenisKegiatan13')?.value || 'Konsensus';
     const sekretaris = document.getElementById('sekretaris13')?.value || 'Eko Mardiono';
     const telpSekretariat = document.getElementById('telpSekretariat13')?.value || '082169092497';
@@ -176,6 +212,15 @@ document.addEventListener('DOMContentLoaded', () => {
     doc.text(':', 55, y);
     doc.setFont('helvetica', 'bold');
     doc.text(kesediaan, 60, y);
+
+    if (kesediaan === 'Bersedia') {
+      y += 7;
+      doc.setFont('helvetica', 'normal');
+      doc.text('Hadir Secara', 20, y);
+      doc.text(':', 55, y);
+      doc.setFont('helvetica', 'bold');
+      doc.text(modeHadir, 60, y);
+    }
 
     y += 7;
     doc.setFont('helvetica', 'normal');
@@ -246,6 +291,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const unitKerja = document.getElementById('unitKerja13')?.value.trim();
       const telp = document.getElementById('telp13')?.value.trim();
       const kesediaan = document.getElementById('kesediaan13')?.value;
+      const modeRadio = document.querySelector('input[name="modeHadir"]:checked');
+      const modeHadir = kesediaan === 'Bersedia' ? (modeRadio ? modeRadio.value : 'Daring (Online)') : '-';
       const jenisKegiatan = document.getElementById('jenisKegiatan13')?.value;
       const kota = document.getElementById('kota13')?.value.trim();
       const tanggal = document.getElementById('tanggal13')?.value;
@@ -289,6 +336,10 @@ document.addEventListener('DOMContentLoaded', () => {
       dataToSend.append('unitKerja', unitKerja);
       dataToSend.append('telp', telp);
       dataToSend.append('kesediaan', kesediaan);
+      dataToSend.append('modeHadir', modeHadir);
+      dataToSend.append('metode_hadir', modeHadir);
+      dataToSend.append('mode_hadir', modeHadir);
+      dataToSend.append('hadir_secara', modeHadir);
       dataToSend.append('jenisKegiatan', jenisKegiatan || 'Konsensus');
       dataToSend.append('sekretaris', 'Eko Mardiono');
       dataToSend.append('telpSekretariat', '082169092497');
@@ -304,6 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
         nama,
         unitKerja,
         kesediaan,
+        modeHadir,
         submittedAt: currentTime
       };
       const existingLogs = JSON.parse(localStorage.getItem('kkni_ketersediaan_f13_list') || '[]');
@@ -318,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(() => {
           if (successMessage) successMessage.style.display = 'block';
           if (errorMessage) errorMessage.style.display = 'none';
-          finishSubmission(nama, unitKerja, kesediaan, bidang);
+          finishSubmission(nama, unitKerja, kesediaan, bidang, modeHadir);
         })
         .catch(error => {
           console.error(error);
@@ -333,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function finishSubmission(nama, unitKerja, kesediaan, bidang) {
+  function finishSubmission(nama, unitKerja, kesediaan, bidang, modeHadir) {
     if (form) {
       form.reset();
       form.style.display = 'none';
@@ -344,11 +396,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const refUnitKerja = document.getElementById('refUnitKerja');
       const refKesediaan = document.getElementById('refKesediaan');
       const refBidang = document.getElementById('refBidang');
+      const refModeHadirRow = document.getElementById('refModeHadirRow');
+      const refModeHadir = document.getElementById('refModeHadir');
 
       if (refNama) refNama.innerText = nama;
       if (refUnitKerja) refUnitKerja.innerText = unitKerja;
       if (refKesediaan) refKesediaan.innerText = kesediaan;
       if (refBidang) refBidang.innerText = bidang;
+      if (refModeHadirRow && refModeHadir) {
+        if (kesediaan === 'Bersedia') {
+          refModeHadir.innerText = modeHadir;
+          refModeHadirRow.style.display = 'flex';
+        } else {
+          refModeHadirRow.style.display = 'none';
+        }
+      }
 
       suksesBox.style.display = 'block';
     }
