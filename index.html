@@ -160,6 +160,53 @@
             border: none;
         }
 
+        /* Expanded Item 1 Card */
+        .form-item-card-expanded {
+            background: var(--white);
+            border: 2px solid var(--slate-200);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1.15rem;
+        }
+
+        .form-item-card-expanded:hover {
+            border-color: var(--primary-500);
+            background: #F8FAFC;
+            box-shadow: 0 12px 24px -5px rgba(37, 99, 235, 0.15);
+        }
+
+        .btn-go-form {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            color: #FFFFFF;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 0.95rem 1.4rem;
+            border-radius: 12px;
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .btn-go-form:hover {
+            background: linear-gradient(135deg, #1D4ED8, #1E40AF);
+            color: #FFFFFF;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+        }
+
+        .btn-go-form-left {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
         /* Form Buttons List */
         .section-label {
             font-size: 1.1rem;
@@ -293,28 +340,7 @@
                 </div>
                 <h1 class="portal-title">Konsensus KKNI Bidang Pengawasan/Audit Intern dan Manajemen Risiko Sektor
                     Publik</h1>
-                <p class="portal-subtitle">Silakan pelajari materi konsensus dan pilih formulir di bawah untuk memulai
-                    pengisian:</p>
-            </div>
-
-            <!-- Google Drive Materials Embedded Section -->
-            <div class="drive-materials-card">
-                <div class="drive-materials-header">
-                    <div class="drive-materials-title">
-                        <i class="fa-solid fa-folder-open"></i>
-                        <div>
-                            <h3>Materi & Dokumen Konsensus KKNI</h3>
-                        </div>
-                    </div>
-                    <a href="https://drive.google.com/drive/folders/1IHWJoWgpqIAoAarEQ5Mwdn9c5_HCIINY?usp=sharing"
-                        target="_blank" rel="noopener noreferrer" class="btn-open-drive">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Folder Drive
-                    </a>
-                </div>
-                <div class="drive-embed-frame">
-                    <iframe src="https://drive.google.com/embeddedfolderview?id=1IHWJoWgpqIAoAarEQ5Mwdn9c5_HCIINY#list"
-                        title="Materi Konsensus KKNI Google Drive"></iframe>
-                </div>
+                <p class="portal-subtitle">Silakan pilih formulir di bawah untuk memulai pengisian:</p>
             </div>
 
             <div class="section-label">
@@ -340,47 +366,59 @@
                     </div>
                 </a> -->
 
-                <!-- Button 2: Daftar Hadir Pesensus -->
-                <a href="forms/daftar-hadir.html" class="btn-form-item">
+                <!-- Item 1: Lembar Tanggapan & Masukan (Embed Drive Materi & Button Form 1) -->
+                <div class="form-item-card-expanded">
                     <div class="form-item-left">
-                        <div class="form-item-icon icon-emerald">
-                            <i class="fa-solid fa-clipboard-user"></i>
-                        </div>
-                        <div class="form-item-text">
-                            <h3>1. Form Daftar Hadir Konsensus (Absensi Sesi)</h3>
-                            <p>Presensi resmi per sesi sidang pleno/komisi dilengkapi Tanda Tangan Digital</p>
-                        </div>
-                    </div>
-                    <div class="form-item-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-                </a>
-
-                <!-- Button 3: Lembar Tanggapan & Masukan -->
-                <a href="forms/tanggapan.html" class="btn-form-item">
-                    <div class="form-item-left">
-                        <div class="form-item-icon icon-amber">
+                        <div class="form-item-icon icon-blue">
                             <i class="fa-solid fa-comments"></i>
                         </div>
                         <div class="form-item-text">
-                            <h3>2. Form Lembar Tanggapan & Masukan Draft RSKKNI</h3>
-                            <p>Pengajuan usulan perbaikan, masukan substantif & redaksional standar</p>
+                            <h3>1. Form Lembar Tanggapan & Masukan Draft RKKNI</h3>
+                            <p>Pelajari materi & dokumen konsensus di bawah ini, lalu isi formulir tanggapan</p>
                         </div>
                     </div>
-                    <div class="form-item-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-                </a>
 
-                <!-- Button 4: Surat Ketersediaan Berkontribusi -->
+                    <!-- Embedded Drive Materials inside Item 1 -->
+                    <div class="drive-materials-card">
+                        <div class="drive-materials-header">
+                            <div class="drive-materials-title">
+                                <i class="fa-solid fa-folder-open"></i>
+                                <div>
+                                    <h4 style="font-size: 1.05rem; font-weight: 700; color: #0F172A; margin: 0;">Materi
+                                        & Dokumen Konsensus KKNI</h4>
+                                </div>
+                            </div>
+                            <a href="https://drive.google.com/drive/folders/1IHWJoWgpqIAoAarEQ5Mwdn9c5_HCIINY?usp=sharing"
+                                target="_blank" rel="noopener noreferrer" class="btn-open-drive">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Folder Drive
+                            </a>
+                        </div>
+                        <div class="drive-embed-frame">
+                            <iframe
+                                src="https://drive.google.com/embeddedfolderview?id=1IHWJoWgpqIAoAarEQ5Mwdn9c5_HCIINY#list"
+                                title="Materi Konsensus KKNI Google Drive"></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Button Action to open Form 1 -->
+                    <a href="forms/tanggapan.html" class="btn-go-form">
+                        <div class="btn-go-form-left">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            <span>Buka Form Lembar Tanggapan & Masukan</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Button 2: Surat Ketersediaan Berkontribusi -->
                 <a href="forms/ketersediaan.html" class="btn-form-item">
                     <div class="form-item-left">
                         <div class="form-item-icon icon-cyan">
                             <i class="fa-solid fa-file-contract"></i>
                         </div>
                         <div class="form-item-text">
-                            <h3>3. Form Ketersediaan</h3>
-                            <p>Ketersediaan Peserta</p>
+                            <h3>2. Form Kesediaan</h3>
+                            <p>Kesediaan Peserta</p>
                         </div>
                     </div>
                     <div class="form-item-arrow">
@@ -388,14 +426,14 @@
                     </div>
                 </a>
 
-                <!-- Button 5: Rekapitulasi Keterwakilan -->
+                <!-- Button 3: Rekapitulasi Keterwakilan -->
                 <a href="forms/keterwakilan.html" class="btn-form-item">
                     <div class="form-item-left">
                         <div class="form-item-icon icon-purple">
                             <i class="fa-solid fa-chart-pie"></i>
                         </div>
                         <div class="form-item-text">
-                            <h3>4. Form Keterwakilan</h3>
+                            <h3>3. Form Keterwakilan</h3>
                             <p>Keterwakilan Peserta</p>
                         </div>
                     </div>
@@ -404,7 +442,21 @@
                     </div>
                 </a>
 
-                
+                <!-- Button 4: Daftar Hadir Pesensus -->
+                <a href="forms/daftar-hadir.html" class="btn-form-item">
+                    <div class="form-item-left">
+                        <div class="form-item-icon icon-emerald">
+                            <i class="fa-solid fa-clipboard-user"></i>
+                        </div>
+                        <div class="form-item-text">
+                            <h3>4. Form Daftar Hadir Konsensus (Absensi Sesi)</h3>
+                            <p>Presensi untuk peserta online dilengkapi Tanda Tangan Digital</p>
+                        </div>
+                    </div>
+                    <div class="form-item-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
 
             </div>
 
