@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Main Design System CSS -->
     <link rel="stylesheet" href="css/app.css">
+    <!-- Mozilla PDF.js for Secure Canvas Document Preview -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
         /* Clean layout styling specifically for index page */
         body {
@@ -83,6 +85,8 @@
             margin-bottom: 2.25rem;
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
             transition: all 0.25s ease;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .drive-materials-header {
@@ -120,41 +124,168 @@
             color: #64748B;
         }
 
-        .btn-open-drive {
+        .badge-view-only {
             display: inline-flex;
             align-items: center;
             gap: 0.45rem;
-            font-size: 0.85rem;
+            font-size: 0.825rem;
             font-weight: 700;
-            color: #0284C7;
-            background: #FFFFFF;
-            border: 1px solid #BAE6FD;
-            padding: 0.55rem 1rem;
-            border-radius: 10px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            color: #D97706;
+            background: #FEF3C7;
+            border: 1px solid #FDE68A;
+            padding: 0.45rem 0.9rem;
+            border-radius: 9999px;
+            box-shadow: 0 2px 6px rgba(217, 119, 6, 0.12);
         }
 
-        .btn-open-drive:hover {
+        .material-doc-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 0.58rem;
+            flex-wrap: wrap;
+        }
+
+        .doc-tab-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.55rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #475569;
+            background: #F1F5F9;
+            border: 1px solid #CBD5E1;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .doc-tab-btn:hover {
+            color: #0284C7;
+            background: #E0F2FE;
+            border-color: #BAE6FD;
+        }
+
+        .doc-tab-btn.active {
+            color: #FFFFFF;
+            background: #0284C7;
+            border-color: #0284C7;
+            box-shadow: 0 3px 8px rgba(2, 132, 199, 0.3);
+        }
+
+        .pdf-controls-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1E293B;
+            padding: 0.45rem 0.85rem;
+            border-radius: 10px 10px 0 0;
+            border: 1px solid #334155;
+            border-bottom: none;
+            color: #FFFFFF;
+        }
+
+        .pdf-controls-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ctrl-btn {
+            background: #334155;
+            border: 1px solid #475569;
+            color: #FFFFFF;
+            padding: 0.35rem 0.65rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .ctrl-btn:hover {
             background: #0284C7;
             color: #FFFFFF;
             border-color: #0284C7;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+        }
+
+        .btn-fullscreen-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: #0284C7;
+            color: #FFFFFF;
+            border: none;
+            padding: 0.4rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.825rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-fullscreen-toggle:hover {
+            background: #0369A1;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
         }
 
         .drive-embed-frame {
+            position: relative;
             width: 100%;
-            height: 190px;
-            border: 1px solid #CBD5E1;
-            border-radius: 14px;
-            background: #FFFFFF;
-            overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+            height: 520px;
+            border: 1px solid #334155;
+            border-radius: 0 0 14px 14px;
+            background: #334155;
+            overflow-y: auto;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
+            padding: 1rem 0.5rem;
+            transition: all 0.25s ease;
         }
 
-        .drive-embed-frame iframe {
+        /* Native Fullscreen & Body Overlay Fallback Fix */
+        .drive-materials-card:fullscreen,
+        .drive-materials-card:-webkit-full-screen,
+        .drive-materials-card.is-fullscreen {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 9999999 !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            background: #0F172A !important;
+            color: #FFFFFF !important;
+            padding: 1.25rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+            box-sizing: border-box !important;
+        }
+
+        .drive-materials-card:fullscreen .drive-materials-title h4,
+        .drive-materials-card:-webkit-full-screen .drive-materials-title h4,
+        .drive-materials-card.is-fullscreen .drive-materials-title h4 {
+            color: #FFFFFF !important;
+        }
+
+        .drive-materials-card:fullscreen .drive-materials-title p,
+        .drive-materials-card:-webkit-full-screen .drive-materials-title p,
+        .drive-materials-card.is-fullscreen .drive-materials-title p {
+            color: #94A3B8 !important;
+        }
+
+        .drive-materials-card:fullscreen .drive-embed-frame,
+        .drive-materials-card:-webkit-full-screen .drive-embed-frame,
+        .drive-materials-card.is-fullscreen .drive-embed-frame {
+            flex: 1 !important;
+            height: 100% !important;
+            max-height: none !important;
+            background: #1E293B !important;
+        }
+
+        .drive-embed-frame iframe,
+        .drive-embed-frame object {
             width: 100%;
             height: 100%;
             border: none;
@@ -322,7 +453,7 @@
             }
 
             .drive-embed-frame {
-                height: 180px;
+                height: 380px;
             }
         }
     </style>
@@ -379,24 +510,49 @@
                     </div>
 
                     <!-- Embedded Drive Materials inside Item 1 -->
-                    <div class="drive-materials-card">
+                    <div class="drive-materials-card" oncontextmenu="return false;">
                         <div class="drive-materials-header">
                             <div class="drive-materials-title">
                                 <i class="fa-solid fa-folder-open"></i>
                                 <div>
                                     <h4 style="font-size: 1.05rem; font-weight: 700; color: #0F172A; margin: 0;">Materi
                                         & Dokumen Konsensus KKNI</h4>
+                                    <p style="font-size: 0.825rem; color: #64748B; margin-top: 0.15rem;">
+                                        Dokumen disajikan untuk dibaca langsung di portal (Mode Hanya Lihat)
+                                    </p>
                                 </div>
                             </div>
-                            <a href="https://drive.google.com/drive/folders/1IHWJoWgpqIAoAarEQ5Mwdn9c5_HCIINY?usp=sharing"
-                                target="_blank" rel="noopener noreferrer" class="btn-open-drive">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Folder Drive
-                            </a>
+                            <div class="badge-view-only">
+                                <i class="fa-solid fa-eye"></i> Mode Hanya Lihat (Tidak Dapat Diunduh)
+                            </div>
                         </div>
-                        <div class="drive-embed-frame">
-                            <iframe
-                                src="https://drive.google.com/embeddedfolderview?id=1IHWJoWgpqIAoAarEQ5Mwdn9c5_HCIINY#list"
-                                title="Materi Konsensus KKNI Google Drive"></iframe>
+
+                        <!-- 2 Document Selection Tabs -->
+                        <div class="material-doc-tabs">
+                            <button type="button" class="doc-tab-btn active" id="tab-doc-1" onclick="switchDoc('materi/RKKNI Pengawasan Intern.pdf', 'tab-doc-1')">
+                                <i class="fa-solid fa-file-pdf" style="color: #EF4444;"></i> 1. Bidang Pengawasan / Audit Intern
+                            </button>
+                            <button type="button" class="doc-tab-btn" id="tab-doc-2" onclick="switchDoc('materi/RKKNI Manajamen Risiko Sektor Publik.pdf', 'tab-doc-2')">
+                                <i class="fa-solid fa-file-pdf" style="color: #3B82F6;"></i> 2. Bidang Manajemen Risiko Sektor Publik
+                            </button>
+                        </div>
+
+                        <!-- Viewer Controls Bar (Zoom & Fullscreen) -->
+                        <div class="pdf-controls-bar">
+                            <div class="pdf-controls-left">
+                                <button type="button" class="ctrl-btn" onclick="zoomPdf(-0.25)" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                                <span id="zoom-level-text" style="font-weight: 700; font-size: 0.85rem; min-width: 45px; text-align: center;">100%</span>
+                                <button type="button" class="ctrl-btn" onclick="zoomPdf(0.25)" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                                <button type="button" class="ctrl-btn" onclick="resetZoomPdf()" title="Reset Zoom"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+                            </div>
+                            <button type="button" class="btn-fullscreen-toggle" onclick="togglePdfFullscreen()">
+                                <i class="fa-solid fa-expand" id="fullscreen-icon"></i> <span id="fullscreen-text">Layar Penuh (Fullscreen)</span>
+                            </button>
+                        </div>
+
+                        <!-- Local Storage Canvas PDF Viewer -->
+                        <div id="local-material-view" class="drive-embed-frame">
+                            <div id="pdf-canvas-container"></div>
                         </div>
                     </div>
 
@@ -467,6 +623,170 @@
         &copy; 2026 Tim TI Konsensus KKNI
     </footer>
 
+    <script>
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+
+        let currentPdfUrl = 'materi/RKKNI Pengawasan Intern.pdf';
+        let currentScale = 1.25;
+
+        function renderLocalPdf(pdfUrl) {
+            const container = document.getElementById('pdf-canvas-container');
+            if (!container) return;
+
+            container.innerHTML = `
+                <div style="text-align: center; padding: 4rem 1rem; color: #FFFFFF;">
+                    <i class="fa-solid fa-circle-notch fa-spin fa-2x"></i>
+                    <p style="margin-top: 0.85rem; font-weight: 600; font-size: 0.95rem;">Memuat Dokumen (Mode Canvas View Only)...</p>
+                </div>
+            `;
+
+            if (typeof pdfjsLib !== 'undefined') {
+                pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
+                    container.innerHTML = '';
+                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                        pdf.getPage(pageNum).then(page => {
+                            const viewport = page.getViewport({ scale: currentScale });
+                            const canvas = document.createElement('canvas');
+                            canvas.style.display = 'block';
+                            canvas.style.margin = '0 auto 1.25rem auto';
+                            canvas.style.boxShadow = '0 8px 20px rgba(0,0,0,0.45)';
+                            canvas.style.borderRadius = '6px';
+                            canvas.style.maxWidth = '98%';
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+
+                            const context = canvas.getContext('2d');
+                            const renderContext = {
+                                canvasContext: context,
+                                viewport: viewport
+                            };
+                            container.appendChild(canvas);
+                            page.render(renderContext);
+                        });
+                    }
+                }).catch(err => {
+                    console.warn('PDF.js render fallback:', err);
+                    container.innerHTML = `<object data="${pdfUrl}#toolbar=0&navpanes=0" type="application/pdf" width="100%" height="480px"><iframe src="${pdfUrl}#toolbar=0&navpanes=0" style="width:100%; height:480px; border:none;"></iframe></object>`;
+                });
+            } else {
+                container.innerHTML = `<object data="${pdfUrl}#toolbar=0&navpanes=0" type="application/pdf" width="100%" height="480px"><iframe src="${pdfUrl}#toolbar=0&navpanes=0" style="width:100%; height:480px; border:none;"></iframe></object>`;
+            }
+        }
+
+        function switchDoc(pdfUrl, tabId) {
+            currentPdfUrl = pdfUrl;
+            document.querySelectorAll('.doc-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            renderLocalPdf(currentPdfUrl);
+        }
+
+        function zoomPdf(delta) {
+            currentScale = Math.max(0.75, Math.min(3.0, currentScale + delta));
+            document.getElementById('zoom-level-text').textContent = Math.round((currentScale / 1.25) * 100) + '%';
+            renderLocalPdf(currentPdfUrl);
+        }
+
+        function resetZoomPdf() {
+            currentScale = 1.25;
+            document.getElementById('zoom-level-text').textContent = '100%';
+            renderLocalPdf(currentPdfUrl);
+        }
+
+        let originalParent = null;
+        let originalNextSibling = null;
+
+        function togglePdfFullscreen() {
+            const card = document.querySelector('.drive-materials-card');
+            if (!card) return;
+
+            const isNativeFull = !!(document.fullscreenElement || document.webkitFullscreenElement);
+            const isCustomFull = card.classList.contains('is-fullscreen');
+
+            if (!isNativeFull && !isCustomFull) {
+                if (card.requestFullscreen) {
+                    card.requestFullscreen().catch(err => {
+                        console.warn('Native requestFullscreen failed, using body overlay fallback:', err);
+                        enableFallbackFullscreen(card);
+                    });
+                } else if (card.webkitRequestFullscreen) {
+                    card.webkitRequestFullscreen();
+                } else {
+                    enableFallbackFullscreen(card);
+                }
+            } else {
+                if (document.exitFullscreen && isNativeFull) {
+                    document.exitFullscreen().catch(err => console.warn(err));
+                } else if (document.webkitExitFullscreen && isNativeFull) {
+                    document.webkitExitFullscreen();
+                }
+                disableFallbackFullscreen(card);
+            }
+        }
+
+        function enableFallbackFullscreen(card) {
+            if (!originalParent) {
+                originalParent = card.parentNode;
+                originalNextSibling = card.nextSibling;
+            }
+            document.body.appendChild(card);
+            card.classList.add('is-fullscreen');
+            updateFullscreenUI(true);
+        }
+
+        function disableFallbackFullscreen(card) {
+            card.classList.remove('is-fullscreen');
+            if (originalParent) {
+                originalParent.insertBefore(card, originalNextSibling);
+                originalParent = null;
+                originalNextSibling = null;
+            }
+            updateFullscreenUI(false);
+        }
+
+        function updateFullscreenUI(isFull) {
+            const fsText = document.getElementById('fullscreen-text');
+            const fsIcon = document.getElementById('fullscreen-icon');
+            if (isFull) {
+                if (fsText) fsText.textContent = 'Tutup Fullscreen (Esc)';
+                if (fsIcon) fsIcon.className = 'fa-solid fa-compress';
+                document.body.style.overflow = 'hidden';
+            } else {
+                if (fsText) fsText.textContent = 'Layar Penuh (Fullscreen)';
+                if (fsIcon) fsIcon.className = 'fa-solid fa-expand';
+                document.body.style.overflow = '';
+            }
+        }
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+
+        function handleFullscreenChange() {
+            const card = document.querySelector('.drive-materials-card');
+            if (!card) return;
+            const isFull = !!(document.fullscreenElement || document.webkitFullscreenElement);
+            if (isFull) {
+                card.classList.add('is-fullscreen');
+                updateFullscreenUI(true);
+            } else {
+                disableFallbackFullscreen(card);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const card = document.querySelector('.drive-materials-card');
+                if (card && card.classList.contains('is-fullscreen')) {
+                    togglePdfFullscreen();
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderLocalPdf(currentPdfUrl);
+        });
+    </script>
 </body>
 
 </html>
