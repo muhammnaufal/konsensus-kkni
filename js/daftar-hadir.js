@@ -374,7 +374,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tableBody = [];
     pesertaData.forEach((row, index) => {
-      tableBody.push([index + 1, row[5] || '-', row[6] || '-', '']);
+      const nama = Array.isArray(row) ? row[5] : (row.nama || '-');
+      const instansi = Array.isArray(row) ? row[6] : (row.instansi || '-');
+      tableBody.push([index + 1, nama || '-', instansi || '-', '']);
     });
 
     doc.autoTable({
@@ -392,7 +394,8 @@ document.addEventListener('DOMContentLoaded', () => {
       didDrawCell: function (data) {
         if (data.column.index === 3 && data.cell.section === 'body') {
           const rowIndex = data.row.index;
-          const base64Img = pesertaData[rowIndex][7];
+          const item = pesertaData[rowIndex];
+          const base64Img = Array.isArray(item) ? item[7] : (item.signature || item.tandaTangan || '');
           if (base64Img && base64Img.startsWith('data:image')) {
             doc.addImage(base64Img, 'PNG', data.cell.x + 2, data.cell.y + 2, 35, 16);
           }
@@ -401,6 +404,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Display PDF in Iframe & setup download link
+    const pdfBlob = doc.output('blob');
+    const pdfBlobUrl = URL.createObjectURL(pdfBlob);
     const pdfBase64 = doc.output('datauristring');
     let safeFileName = `Daftar_Hadir_${kkni.replace(/[^a-z0-9]/gi, '_')}_${tanggal}.pdf`;
 
@@ -408,11 +413,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const pdfContainer = document.getElementById('pdfContainer');
     const directDl = document.getElementById('directDownloadBtn');
 
-    if (pdfViewer) pdfViewer.src = pdfBase64;
+    if (pdfViewer) pdfViewer.src = pdfBlobUrl;
     if (pdfContainer) pdfContainer.style.display = 'block';
 
     if (directDl) {
-      directDl.href = pdfBase64;
+      directDl.href = pdfBlobUrl;
       directDl.download = safeFileName;
     }
 
