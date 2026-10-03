@@ -582,21 +582,24 @@
                     </div>
                 </a>
 
-                <!-- Button 3: Rekapitulasi Keterwakilan -->
-                <a href="forms/keterwakilan.html" class="btn-form-item">
+                <!-- Button 3: Form Keterwakilan (Nonaktif) -->
+                <div class="btn-form-item disabled" style="opacity: 0.65; cursor: not-allowed; background: #F8FAFC; border-color: #CBD5E1; pointer-events: none;">
                     <div class="form-item-left">
-                        <div class="form-item-icon icon-purple">
+                        <div class="form-item-icon icon-purple" style="background: #F1F5F9; color: #94A3B8;">
                             <i class="fa-solid fa-chart-pie"></i>
                         </div>
                         <div class="form-item-text">
-                            <h3>3. Form Keterwakilan</h3>
-                            <p>Keterwakilan Peserta</p>
+                            <h3 style="color: #64748B; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                3. Form Keterwakilan 
+                                <span style="font-size: 0.75rem; background: #94A3B8; color: #FFFFFF; padding: 2px 8px; border-radius: 9999px; font-weight: 600;">Dimatikan / Nonaktif</span>
+                            </h3>
+                            <p style="color: #94A3B8;">Keterwakilan Peserta (Diakses melalui Form Kesediaan jika Tidak Bersedia)</p>
                         </div>
                     </div>
-                    <div class="form-item-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
+                    <div class="form-item-arrow" style="background: #F1F5F9; color: #94A3B8;">
+                        <i class="fa-solid fa-lock"></i>
                     </div>
-                </a>
+                </div>
 
                 <!-- Button 4: Daftar Hadir Pesensus -->
                 <a href="forms/daftar-hadir.html" class="btn-form-item">

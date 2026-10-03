@@ -118,13 +118,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const kesediaanSelect = document.getElementById('kesediaan13');
   const modeHadirGroup = document.getElementById('modeHadirGroup');
+  const infoTidakBersediaGroup = document.getElementById('infoTidakBersediaGroup');
 
   function toggleModeHadir() {
-    if (kesediaanSelect && modeHadirGroup) {
+    if (kesediaanSelect) {
       if (kesediaanSelect.value === 'Bersedia') {
-        modeHadirGroup.style.display = 'block';
+        if (modeHadirGroup) modeHadirGroup.style.display = 'block';
+        if (infoTidakBersediaGroup) infoTidakBersediaGroup.style.display = 'none';
+      } else if (kesediaanSelect.value === 'Tidak Bersedia') {
+        if (modeHadirGroup) modeHadirGroup.style.display = 'none';
+        if (infoTidakBersediaGroup) infoTidakBersediaGroup.style.display = 'block';
       } else {
-        modeHadirGroup.style.display = 'none';
+        if (modeHadirGroup) modeHadirGroup.style.display = 'none';
+        if (infoTidakBersediaGroup) infoTidakBersediaGroup.style.display = 'none';
       }
     }
   }
@@ -408,11 +414,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const refBidang = document.getElementById('refBidang');
       const refModeHadirRow = document.getElementById('refModeHadirRow');
       const refModeHadir = document.getElementById('refModeHadir');
+      const noticeKeterwakilan = document.getElementById('noticeKeterwakilan');
 
       if (refNama) refNama.innerText = nama;
       if (refJabatan) refJabatan.innerText = jabatan;
       if (refUnitKerja) refUnitKerja.innerText = unitKerja;
-      if (refKesediaan) refKesediaan.innerText = kesediaan;
+      if (refKesediaan) {
+        refKesediaan.innerText = kesediaan;
+        if (kesediaan === 'Tidak Bersedia') {
+          refKesediaan.style.color = '#EF4444';
+        } else {
+          refKesediaan.style.color = '#10B981';
+        }
+      }
       if (refBidang) refBidang.innerText = bidang;
       if (refModeHadirRow && refModeHadir) {
         if (kesediaan === 'Bersedia') {
@@ -420,6 +434,14 @@ document.addEventListener('DOMContentLoaded', () => {
           refModeHadirRow.style.display = 'flex';
         } else {
           refModeHadirRow.style.display = 'none';
+        }
+      }
+
+      if (noticeKeterwakilan) {
+        if (kesediaan === 'Tidak Bersedia') {
+          noticeKeterwakilan.style.display = 'block';
+        } else {
+          noticeKeterwakilan.style.display = 'none';
         }
       }
 
